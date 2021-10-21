@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+    <style>
+
+       body {
+         background-color: black;
+       }
+
+    </style>
+  </head>
+  <body>
+
+    <p id="loading" style="display: none">
+      Please wait, loading Phaser build ...
+    </p>
+
+    <script id="examplesrc" type="text/javascript">
+      class Example extends Phaser.Scene {
+        constructor() {
+          super();
+        }
+
+        preload() {
+          this.load.spritesheet(
+            "corona",
+            "assets/sprites/corona-sheet-183x183.png",
+            { frameWidth: 183, frameHeight: 183 }
+          );
+
+        }
+
+        create() {
+          // Text section
+          //this.add.tileSprite(400, 300, 800, 600, "grid");
+
+          this.add
+            .image(0, 0, "corona", "__BASE")
+            .setOrigin(0, 0)
+            .setScale(0.5);
+
+          
+
+          // Animation set
+          this.anims.create({
+            key: "corona1",
+            frames: this.anims.generateFrameNumbers("corona", {
+              frames: [
+                0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                3, 0, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0,
+              ],
+            }),
+            frameRate: 4,
+            repeat: -1,
+          });
+
+          this.anims.create({
+            key: "corona2",
+            frames: this.anims.generateFrameNumbers("corona", {
+              frames: [
+                4, 4, 4, 4, 4, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 4, 5, 4, 4,
+                4, 4, 4, 4, 4, 5, 4, 4, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4,
+                4, 4, 4, 4, 4, 4, 4,
+              ],
+            }),
+            frameRate: 4,
+            repeat: -1,
+          });
+
+          const keys = ["corona1", "corona2"];
+
+          const cody = this.add.sprite(600, 100);
+
+          cody.setScale(1);
+          cody.play("corona1");
+
+          let c = 0;
+          this.input.on("pointerdown", function () {
+            c++;
+            if (c === keys.length) {
+              c = 0;
+            }
+            cody.play(keys[c]);
+            current.setText("Playing: " + keys[c]);
+          });
+        }
+      }
+
+      const config = {
+        type: Phaser.AUTO,
+        parent: "phaser-example",
+        width: 800,
+        height: 300,
+        pixelArt: true,
+        scene: [Example],
+      };
+
+      const game = new Phaser.Game(config);
+    </script>
+  </body>
+</html>
