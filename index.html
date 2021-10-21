@@ -7,14 +7,14 @@
     <title>Document</title>
     <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     <style>
-
-       body {
-         background-color: black;
-       }
-
+      body {
+        background-color: black;
+        color: white;
+      }
     </style>
   </head>
   <body>
+    <h2>Clique no personagem para alterar a animação</h2>
 
     <p id="loading" style="display: none">
       Please wait, loading Phaser build ...
@@ -32,7 +32,11 @@
             "assets/sprites/corona-sheet-183x183.png",
             { frameWidth: 183, frameHeight: 183 }
           );
+        }
 
+        setLabel(text) {
+          const ani = Window.document.getElementById("animacao");
+          ani.innerText = text;
         }
 
         create() {
@@ -43,8 +47,6 @@
             .image(0, 0, "corona", "__BASE")
             .setOrigin(0, 0)
             .setScale(0.5);
-
-          
 
           // Animation set
           this.anims.create({
@@ -73,12 +75,48 @@
             repeat: -1,
           });
 
-          const keys = ["corona1", "corona2"];
+          this.anims.create({
+            key: "corona3",
+            frames: this.anims.generateFrameNumbers("corona", {
+              frames: [
+                5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7,
+                6, 6, 6, 6, 6, 7, 6, 6, 6, 7, 6, 6, 7, 6, 6, 6, 5, 4, 4, 4, 4,
+                4,
+              ],
+            }),
+            frameRate: 4,
+            repeat: -1,
+          });
+
+          this.anims.create({
+            key: "corona4",
+            frames: this.anims.generateFrameNumbers("corona", {
+              frames: [
+                8, 8, 10, 8, 10, 8, 10, 8, 10, 8, 8, 9, 9, 8, 8, 8, 10 
+              ],
+            }),
+            frameRate: 2,
+            repeat: -1,
+          });
+
+          this.anims.create({
+            key: "corona5",
+            frames: this.anims.generateFrameNumbers("corona", {
+              frames: [
+                11 
+              ],
+            }),
+            frameRate: 1,
+            repeat: 0,
+          });
+
+          const keys = ["corona2", "corona3", "corona1", "corona4", "corona5"];
 
           const cody = this.add.sprite(600, 100);
 
           cody.setScale(1);
-          cody.play("corona1");
+          cody.play("corona2");
+          //this.setLabel("corona2");
 
           let c = 0;
           this.input.on("pointerdown", function () {
@@ -87,7 +125,10 @@
               c = 0;
             }
             cody.play(keys[c]);
+
             current.setText("Playing: " + keys[c]);
+            //setLabel(keys[c]);
+            //alert("oi");
           });
         }
       }
