@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TESTE PHASER</title>
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+    <script src="./lib/phaser-3.55.2.js"></script>
     <style>
       body {
         background-color: black;
@@ -14,11 +14,11 @@
     </style>
   </head>
   <body>
-    <h2>Clique no personagem para alterar a animação</h2>
-
     <p id="loading" style="display: none">
       Please wait, loading Phaser build ...
     </p>
+
+    <div id="phaser-example"></div>
 
     <script id="examplesrc" type="text/javascript">
       class Example extends Phaser.Scene {
@@ -27,118 +27,110 @@
         }
 
         preload() {
-          this.load.spritesheet(
-            "corona",
-            "assets/sprites/corona-sheet-183x183.png",
-            { frameWidth: 183, frameHeight: 183 }
+          this.load.image(
+            "tiles",
+            "./assets/tilemaps/tiles/drawtiles-spaced.png"
           );
-        }
-
-        setLabel(text) {
-          const ani = Window.document.getElementById("animacao");
-          ani.innerText = text;
+          //this.load.image("car", "./assets/sprites/car90.png");
+          this.load.image("car", "./assets/sprites/corona.ico");
+          this.load.tilemapCSV("map", "./assets/tilemaps/csv/grid.csv");
         }
 
         create() {
-          // Text section
-          //this.add.tileSprite(400, 300, 800, 600, "grid");
-
-          this.add
-            .image(0, 0, "corona", "__BASE")
-            .setOrigin(0, 0)
-            .setScale(0.5);
-
-          // Animation set
-          this.anims.create({
-            key: "corona1",
-            frames: this.anims.generateFrameNumbers("corona", {
-              frames: [
-                0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                3, 0, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0,
-              ],
-            }),
-            frameRate: 4,
-            repeat: -1,
+          var map = this.make.tilemap({
+            key: "map",
+            tileWidth: 32,
+            tileHeight: 32,
           });
+          var tileset = map.addTilesetImage("tiles", null, 32, 32, 1, 2);
+          var layer = map.createLayer(0, tileset, 0, 0);
 
-          this.anims.create({
-            key: "corona2",
-            frames: this.anims.generateFrameNumbers("corona", {
-              frames: [
-                4, 4, 4, 4, 4, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 4, 5, 4, 4,
-                4, 4, 4, 4, 4, 5, 4, 4, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4,
-                4, 4, 4, 4, 4, 4, 4,
-              ],
-            }),
-            frameRate: 4,
-            repeat: -1,
-          });
+          var player = this.add.image(32 + 16, 32 + 16, "car");
 
-          this.anims.create({
-            key: "corona3",
-            frames: this.anims.generateFrameNumbers("corona", {
-              frames: [
-                5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7,
-                6, 6, 6, 6, 6, 7, 6, 6, 6, 7, 6, 6, 7, 6, 6, 6, 5, 4, 4, 4, 4,
-                4,
-              ],
-            }),
-            frameRate: 4,
-            repeat: -1,
-          });
+          this.input.keyboard.on("keydown", function (event) {
+            console.log("keydown-arguments:", arguments);
+            console.log("keydown-event:", event);
 
-          this.anims.create({
-            key: "corona4",
-            frames: this.anims.generateFrameNumbers("corona", {
-              frames: [
-                8, 8, 10, 8, 10, 8, 10, 8, 10, 8, 8, 9, 9, 8, 8, 8, 10 
-              ],
-            }),
-            frameRate: 2,
-            repeat: -1,
-          });
+            switch (event.key) {
+              case "ArrowLeft":
+              case "a":
+                var tile = layer.getTileAtWorldXY(
+                  player.x - 32,
+                  player.y,
+                  true
+                );
+                if (tile.index === 2) {
+                  //  Blocked, we can't move
+                } else {
+                  player.x -= 32;
+                  //player.angle = 180;
+                }
+                break;
 
-          this.anims.create({
-            key: "corona5",
-            frames: this.anims.generateFrameNumbers("corona", {
-              frames: [
-                11 
-              ],
-            }),
-            frameRate: 1,
-            repeat: 0,
-          });
+              case "ArrowRight":
+              case "d":
+                var tile = layer.getTileAtWorldXY(
+                  player.x + 32,
+                  player.y,
+                  true
+                );
 
-          const keys = ["corona2", "corona3", "corona1", "corona4", "corona5"];
+                if (tile.index === 2) {
+                  //  Blocked, we can't move
+                } else {
+                  player.x += 32;
+                  //player.angle = 0;
+                }
+                break;
 
-          const cody = this.add.sprite(600, 100);
+              case "ArrowDown":
+              case "s":
+                var tile = layer.getTileAtWorldXY(
+                  player.x,
+                  player.y + 32,
+                  true
+                );
 
-          cody.setScale(1);
-          cody.play("corona2");
-          //this.setLabel("corona2");
+                if (tile.index === 2) {
+                  //  Blocked, we can't move
+                } else {
+                  player.y += 32;
+                  //player.angle = 90;
+                }
+                break;
+              case "ArrowUp":
+              case "w":
+                var tile = layer.getTileAtWorldXY(
+                  player.x,
+                  player.y - 32,
+                  true
+                );
 
-          let c = 0;
-          this.input.on("pointerdown", function () {
-            c++;
-            if (c === keys.length) {
-              c = 0;
+                if (tile.index === 2) {
+                  //  Blocked, we can't move
+                } else {
+                  player.y -= 32;
+                  //player.angle = -90;
+                }
+                break;
             }
-            cody.play(keys[c]);
-
-            current.setText("Playing: " + keys[c]);
-            //setLabel(keys[c]);
-            //alert("oi");
           });
+
+         
+        }
+
+        update() {
+          //console.log("update")
         }
       }
 
       const config = {
         type: Phaser.AUTO,
-        parent: "phaser-example",
         width: 800,
-        height: 300,
+        height: 600,
+        parent: "phaser-example",
         pixelArt: true,
+        backgroundColor: "#1a1a2d",
         scene: [Example],
       };
 

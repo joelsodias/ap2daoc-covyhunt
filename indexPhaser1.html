@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TESTE PHASER</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+    <style>
+      body {
+        background-color: black;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Clique no personagem para alterar a animação</h2>
+
+    <p id="loading" style="display: none">
+      Please wait, loading Phaser build ...
+    </p>
+
+    <div id="phaser-example"></div>
+
+    <script id="examplesrc" type="text/javascript">
+      class Example extends Phaser.Scene {
+        constructor() {
+          super();
+        }
+
+        preload() {
+          this.load.spritesheet(
+            "corona",
+            "assets/sprites/corona-sheet-183x183.png",
+            { frameWidth: 183, frameHeight: 183 }
+          );
+          this.load.image("ground", "assets/sprites/platform.png");
+        }
+
+        create() {
+
+          this.anims.create({
+            key: "corona1",
+            frames: this.anims.generateFrameNumbers("corona", {
+              frames: [
+                0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                3, 0, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0,
+              ],
+            }),
+            frameRate: 4,
+            repeat: -1,
+          });
+
+          this.anims.create({
+            key: "corona2",
+            frames: this.anims.generateFrameNumbers("corona", {
+              frames: [
+                4, 4, 4, 4, 4, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 4, 5, 4, 4,
+                4, 4, 4, 4, 4, 5, 4, 4, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4,
+                4, 4, 4, 4, 4, 4, 4,
+              ],
+            }),
+            frameRate: 4,
+            repeat: -1,
+          });
+
+          this.anims.create({
+            key: "corona3",
+            frames: this.anims.generateFrameNumbers("corona", {
+              frames: [
+                5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 6, 6, 6, 6, 6, 7, 6, 6, 6, 7,
+                6, 6, 7, 6, 6, 6, 5, 4, 4, 4, 4, 4,
+              ],
+            }),
+            frameRate: 4,
+            repeat: -1,
+          });
+
+          this.anims.create({
+            key: "corona4",
+            frames: this.anims.generateFrameNumbers("corona", {
+              frames: [8, 8, 10, 8, 10, 8, 10, 8, 10, 8, 8, 9, 9, 8, 8, 8, 10],
+            }),
+            frameRate: 2,
+            repeat: -1,
+          });
+
+          this.anims.create({
+            key: "corona5",
+            frames: this.anims.generateFrameNumbers("corona", {
+              frames: [11],
+            }),
+            frameRate: 1,
+            repeat: 0,
+          });
+
+          const keys = ["corona2", "corona3", "corona1", "corona4", "corona5"];
+
+          //sprite(600,100, "corona1");
+
+          this.covy = this.physics.add.sprite(100, 100, "covy");
+
+          this.covy.setBounce(0.75);
+          this.covy.setCollideWorldBounds(true);
+          this.covy.enableBody = true;
+          this.covy.physicsBodyType = Phaser.Physics.ARCADE;
+          
+          this.rect1 = this.add.rectangle(50, 300, 200, 64, 0xffffff);
+          this.physics.add.existing(this.rect1, false);
+          this.rect1.enableBody = true;
+          this.rect1.body.setCollideWorldBounds(true);
+
+          this.physics.add.collider(this.covy, this.rect1);
+          
+          // this.platforms = this.physics.add.staticGroup();
+          // this.platforms.add(this.rect1);
+          // this.platforms.enableBody = true;
+          // this.platforms.physicsBodyType = Phaser.Physics.ARCADE;
+          
+          //this.cursors = this.input.keyboard.createCursorKeys();
+
+
+          this.covy.play("corona2");
+
+          let c = 0;
+          this.input.on("pointerdown", function () {
+            c++;
+            if (c === keys.length) {
+              c = 0;
+            }
+            this.covy.play(keys[c]);
+          });
+        }
+
+        update() {
+          //this.physics.add.collider(this.covy, this.platforms);
+        }
+      }
+
+      const config = {
+        type: Phaser.AUTO,
+        parent: "phaser-example",
+        width: 800,
+        height: 600,
+        pixelArt: true,
+        scene: [Example],
+        physics: {
+          default: "arcade",
+          arcade: {
+            gravity: { y: 300 },
+            debug: false,
+          },
+        },
+      };
+
+      const game = new Phaser.Game(config);
+    </script>
+  </body>
+</html>
