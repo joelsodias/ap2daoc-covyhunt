@@ -27,96 +27,145 @@
         }
 
         preload() {
+          this.load.spritesheet(
+            "ss-doc",
+            "assets/sprites/doc-sheet-32x32.png",
+            { frameWidth: 32, frameHeight: 32 }
+          );
+
           this.load.image(
             "tiles",
             "./assets/tilemaps/tiles/drawtiles-spaced.png"
           );
           //this.load.image("car", "./assets/sprites/car90.png");
-          this.load.image("car", "./assets/sprites/corona.ico");
+          this.load.image("corona", "./assets/sprites/corona.ico");
           this.load.tilemapCSV("map", "./assets/tilemaps/csv/grid.csv");
         }
 
         create() {
-          var map = this.make.tilemap({
+          this.map = this.make.tilemap({
             key: "map",
             tileWidth: 32,
             tileHeight: 32,
           });
-          var tileset = map.addTilesetImage("tiles", null, 32, 32, 1, 2);
-          var layer = map.createLayer(0, tileset, 0, 0);
+          this.props = null;
+          this.tileset = this.map.addTilesetImage("tiles", null, 32, 32, 1, 2);
+          this.layer = this.map.createLayer(0, this.tileset, 0, 0);
 
-          var player = this.add.image(32 + 16, 32 + 16, "car");
+          // this.player = this.add.image(32 + 16, 32 + 16, "corona");
+          this.player = this.add.sprite(32 + 16, 32 + 16, "doc");
 
-          this.input.keyboard.on("keydown", function (event) {
-            console.log("keydown-arguments:", arguments);
-            console.log("keydown-event:", event);
-
-            switch (event.key) {
-              case "ArrowLeft":
-              case "a":
-                var tile = layer.getTileAtWorldXY(
-                  player.x - 32,
-                  player.y,
-                  true
-                );
-                if (tile.index === 2) {
-                  //  Blocked, we can't move
-                } else {
-                  player.x -= 32;
-                  //player.angle = 180;
-                }
-                break;
-
-              case "ArrowRight":
-              case "d":
-                var tile = layer.getTileAtWorldXY(
-                  player.x + 32,
-                  player.y,
-                  true
-                );
-
-                if (tile.index === 2) {
-                  //  Blocked, we can't move
-                } else {
-                  player.x += 32;
-                  //player.angle = 0;
-                }
-                break;
-
-              case "ArrowDown":
-              case "s":
-                var tile = layer.getTileAtWorldXY(
-                  player.x,
-                  player.y + 32,
-                  true
-                );
-
-                if (tile.index === 2) {
-                  //  Blocked, we can't move
-                } else {
-                  player.y += 32;
-                  //player.angle = 90;
-                }
-                break;
-              case "ArrowUp":
-              case "w":
-                var tile = layer.getTileAtWorldXY(
-                  player.x,
-                  player.y - 32,
-                  true
-                );
-
-                if (tile.index === 2) {
-                  //  Blocked, we can't move
-                } else {
-                  player.y -= 32;
-                  //player.angle = -90;
-                }
-                break;
-            }
+          this.anims.create({
+            key: "doc-walk-right",
+            frames: this.anims.generateFrameNumbers("ss-doc", {
+              frames: [0, 1, 2],
+            }),
+            frameRate: 4,
+            repeat: -1,
           });
 
-         
+          this.anims.create({
+            key: "doc-stop-right",
+            frames: this.anims.generateFrameNumbers("ss-doc", {
+              frames: [1],
+            }),
+            frameRate: 4,
+            repeat: -1,
+          });
+
+          this.anims.create({
+            key: "doc-walk-left",
+            frames: this.anims.generateFrameNumbers("ss-doc", {
+              frames: [3, 4, 5],
+            }),
+            frameRate: 4,
+            repeat: -1,
+          });
+
+          this.player.play("doc-stop-right");
+          this.player.lastmove = "doc-stop-right";
+
+          const pm = this.playerMovement;
+          this.input.keyboard.on("keydown", pm);
+
+          // const enemies = this.physics.add.group();
+          // enemies.create(320, 10, "enemy");
+        }
+
+        playerMovement(event, _this) {
+          console.log("keydown-arguments:", arguments);
+          console.log("keydown-event:", event);
+
+          switch (event.key) {
+            case "ArrowLeft":
+            case "a":
+              var tile = this.scene.layer.getTileAtWorldXY(
+                this.scene.player.x - 16,
+                this.scene.player.y,
+                true
+              );
+              if (tile.index === 2) {
+                //  Blocked, we can't move
+              } else {
+                this.scene.player.x -= 4;
+                if (this.scene.player.lastmove !== "doc-walk-left") {
+                  this.scene.player.play("doc-walk-left");
+                  this.scene.player.lastmove = "doc-walk-left";
+                }
+                //player.angle = 180;
+              }
+              break;
+
+            case "ArrowRight":
+            case "d":
+              var tile = this.scene.layer.getTileAtWorldXY(
+                this.scene.player.x + 16,
+                this.scene.player.y,
+                true
+              );
+
+              if (tile.index === 2) {
+                //  Blocked, we can't move
+              } else {
+                this.scene.player.x += 4;
+                if (this.scene.player.lastmove !== "doc-walk-right") {
+                  this.scene.player.play("doc-walk-right");
+                  this.scene.player.lastmove = "doc-walk-right";
+                }//player.angle = 0;
+              }
+              break;
+
+            case "ArrowDown":
+            case "s":
+              var tile = this.scene.layer.getTileAtWorldXY(
+                this.scene.player.x,
+                this.scene.player.y + 16,
+                true
+              );
+
+              if (tile.index === 2) {
+                //  Blocked, we can't move
+              } else {
+                this.scene.player.y += 4;
+                //player.angle = 90;
+              }
+              break;
+            case "ArrowUp":
+            case "w":
+              var tile = this.scene.layer.getTileAtWorldXY(
+                this.scene.player.x,
+                this.scene.player.y - 16,
+                true
+              );
+
+              if (tile.index === 2) {
+                //  Blocked, we can't move
+              } else {
+                this.scene.player.y -= 4;
+                //player.angle = -90;
+              }
+              break;
+          }
         }
 
         update() {
