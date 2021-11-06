@@ -70,7 +70,7 @@
               frames: [1],
             }),
             frameRate: 4,
-            repeat: -1,
+            repeat: 0,
           });
 
           this.anims.create({
@@ -82,89 +82,164 @@
             repeat: -1,
           });
 
+          this.anims.create({
+            key: "doc-stop-left",
+            frames: this.anims.generateFrameNumbers("ss-doc", {
+              frames: [4],
+            }),
+            frameRate: 4,
+            repeat: 0,
+          });
+
+          this.anims.create({
+            key: "doc-walk-down",
+            frames: this.anims.generateFrameNumbers("ss-doc", {
+              frames: [6, 7, 8],
+            }),
+            frameRate: 4,
+            repeat: -1,
+          });
+
+          this.anims.create({
+            key: "doc-stop-down",
+            frames: this.anims.generateFrameNumbers("ss-doc", {
+              frames: [7],
+            }),
+            frameRate: 4,
+            repeat: 0,
+          });
+
+          this.anims.create({
+            key: "doc-walk-up",
+            frames: this.anims.generateFrameNumbers("ss-doc", {
+              frames: [9, 10, 11],
+            }),
+            frameRate: 4,
+            repeat: -1,
+          });
+
+          this.anims.create({
+            key: "doc-stop-up",
+            frames: this.anims.generateFrameNumbers("ss-doc", {
+              frames: [10],
+            }),
+            frameRate: 4,
+            repeat: 0,
+          });
+
           this.player.play("doc-stop-right");
           this.player.lastmove = "doc-stop-right";
 
           const pm = this.playerMovement;
           this.input.keyboard.on("keydown", pm);
+          this.input.keyboard.on("keyup", pm);
 
           // const enemies = this.physics.add.group();
           // enemies.create(320, 10, "enemy");
         }
 
-        playerMovement(event, _this) {
+        playerMovement(event) {
           console.log("keydown-arguments:", arguments);
           console.log("keydown-event:", event);
 
-          switch (event.key) {
-            case "ArrowLeft":
-            case "a":
-              var tile = this.scene.layer.getTileAtWorldXY(
-                this.scene.player.x - 16,
-                this.scene.player.y,
-                true
-              );
-              if (tile.index === 2) {
-                //  Blocked, we can't move
-              } else {
-                this.scene.player.x -= 4;
-                if (this.scene.player.lastmove !== "doc-walk-left") {
-                  this.scene.player.play("doc-walk-left");
-                  this.scene.player.lastmove = "doc-walk-left";
+          if (event.type == "keyup") {
+            switch (this.scene.player.lastmove) {
+              case "doc-walk-left":
+                this.scene.player.play("doc-stop-left");
+                this.scene.player.lastmove = "doc-stop-left";
+                break;
+              case "doc-walk-right":
+                this.scene.player.play("doc-stop-right");
+                this.scene.player.lastmove = "doc-stop-right";
+                break;
+              case "doc-walk-down":
+                this.scene.player.play("doc-stop-down");
+                this.scene.player.lastmove = "doc-stop-down";
+                break;
+              case "doc-walk-up":
+                this.scene.player.play("doc-stop-up");
+                this.scene.player.lastmove = "doc-stop-up";
+                break;
+            }
+          } else if (event.type == "keydown") {
+            switch (event.key) {
+              case "ArrowLeft":
+              case "a":
+                var tile = this.scene.layer.getTileAtWorldXY(
+                  this.scene.player.x - 16,
+                  this.scene.player.y,
+                  true
+                );
+                if (tile.index === 2) {
+                  //  Blocked, we can't move
+                } else {
+                  this.scene.player.x -= 4;
+                  if (this.scene.player.lastmove !== "doc-walk-left") {
+                    this.scene.player.play("doc-walk-left");
+                    this.scene.player.lastmove = "doc-walk-left";
+                  }
+                  //player.angle = 180;
                 }
-                //player.angle = 180;
-              }
-              break;
+                break;
 
-            case "ArrowRight":
-            case "d":
-              var tile = this.scene.layer.getTileAtWorldXY(
-                this.scene.player.x + 16,
-                this.scene.player.y,
-                true
-              );
+              case "ArrowRight":
+              case "d":
+                var tile = this.scene.layer.getTileAtWorldXY(
+                  this.scene.player.x + 16,
+                  this.scene.player.y,
+                  true
+                );
 
-              if (tile.index === 2) {
-                //  Blocked, we can't move
-              } else {
-                this.scene.player.x += 4;
-                if (this.scene.player.lastmove !== "doc-walk-right") {
-                  this.scene.player.play("doc-walk-right");
-                  this.scene.player.lastmove = "doc-walk-right";
-                }//player.angle = 0;
-              }
-              break;
+                if (tile.index === 2) {
+                  //  Blocked, we can't move
+                } else {
+                  this.scene.player.x += 4;
+                  if (this.scene.player.lastmove !== "doc-walk-right") {
+                    this.scene.player.play("doc-walk-right");
+                    this.scene.player.lastmove = "doc-walk-right";
+                  } //player.angle = 0;
+                }
+                break;
 
-            case "ArrowDown":
-            case "s":
-              var tile = this.scene.layer.getTileAtWorldXY(
-                this.scene.player.x,
-                this.scene.player.y + 16,
-                true
-              );
+              case "ArrowDown":
+              case "s":
+                var tile = this.scene.layer.getTileAtWorldXY(
+                  this.scene.player.x,
+                  this.scene.player.y + 16,
+                  true
+                );
 
-              if (tile.index === 2) {
-                //  Blocked, we can't move
-              } else {
-                this.scene.player.y += 4;
-                //player.angle = 90;
-              }
-              break;
-            case "ArrowUp":
-            case "w":
-              var tile = this.scene.layer.getTileAtWorldXY(
-                this.scene.player.x,
-                this.scene.player.y - 16,
-                true
-              );
+                if (tile.index === 2) {
+                  //  Blocked, we can't move
+                } else {
+                  this.scene.player.y += 4;
+                  if (this.scene.player.lastmove !== "doc-walk-down") {
+                    this.scene.player.play("doc-walk-down");
+                    this.scene.player.lastmove = "doc-walk-down";
+                  }
+                  //player.angle = 90;
+                }
+                break;
+              case "ArrowUp":
+              case "w":
+                var tile = this.scene.layer.getTileAtWorldXY(
+                  this.scene.player.x,
+                  this.scene.player.y - 16,
+                  true
+                );
 
-              if (tile.index === 2) {
-                //  Blocked, we can't move
-              } else {
-                this.scene.player.y -= 4;
-                //player.angle = -90;
-              }
-              break;
+                if (tile.index === 2) {
+                  //  Blocked, we can't move
+                } else {
+                  this.scene.player.y -= 4;
+                  if (this.scene.player.lastmove !== "doc-walk-up") {
+                    this.scene.player.play("doc-walk-up");
+                    this.scene.player.lastmove = "doc-walk-up";
+                  }
+                  //player.angle = -90;
+                }
+                break;
+            }
           }
         }
 
