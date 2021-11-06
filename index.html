@@ -33,12 +33,18 @@
             { frameWidth: 32, frameHeight: 32 }
           );
 
+          this.load.spritesheet(
+            "ss-corona",
+            "assets/sprites/covid-sheet-32x32.png",
+            { frameWidth: 32, frameHeight: 32 }
+          );
+
           this.load.image(
             "tiles",
             "./assets/tilemaps/tiles/drawtiles-spaced.png"
           );
           //this.load.image("car", "./assets/sprites/car90.png");
-          this.load.image("corona", "./assets/sprites/corona.ico");
+          //this.load.image("corona", "./assets/sprites/corona.ico");
           this.load.tilemapCSV("map", "./assets/tilemaps/csv/grid.csv");
         }
 
@@ -55,6 +61,66 @@
           // this.player = this.add.image(32 + 16, 32 + 16, "corona");
           this.player = this.add.sprite(32 + 16, 32 + 16, "doc");
 
+          this.covy = this.add.sprite(32 + 16, 32 + 16, "covy");
+
+          this.setDocAnims();
+          this.setCovyAnims();
+
+          this.player.play("doc-stop-right");
+          this.player.lastmove = "doc-stop-right";
+
+          this.covy.play("covy-walk-up");
+          this.covy.lastmove = null;
+
+          const pm = this.playerMovement;
+          this.input.keyboard.on("keydown", pm);
+          this.input.keyboard.on("keyup", pm);
+
+          // const enemies = this.physics.add.group();
+          // enemies.create(32+16, 32+16 , "enemy");
+        }
+
+        setCovyAnims() {
+          this.anims.create({
+            key: "covy-walk-left",
+            frames: this.anims.generateFrameNumbers("ss-corona", {
+              frames: [0, 2, 0, 2, 0, 3, 0, 2],
+            }),
+            frameRate: 4,
+            repeat: -1,
+          });
+
+          this.anims.create({
+            key: "covy-walk-right",
+            frames: this.anims.generateFrameNumbers("ss-corona", {
+              frames: [4, 6, 4, 6, 4, 7, 4, 6],
+            }),
+            frameRate: 4,
+            repeat: -1,
+          });
+
+          this.anims.create({
+            key: "covy-walk-down",
+            frames: this.anims.generateFrameNumbers("ss-corona", {
+              frames: [
+                12, 14, 12, 14, 12, 19, 12, 14, 12, 15, 12, 14, 12, 19, 12, 14,
+              ],
+            }),
+            frameRate: 4,
+            repeat: -1,
+          });
+
+          this.anims.create({
+            key: "covy-walk-up",
+            frames: this.anims.generateFrameNumbers("ss-corona", {
+              frames: [20, 21, 22, 21],
+            }),
+            frameRate: 4,
+            repeat: -1,
+          });
+        }
+
+        setDocAnims() {
           this.anims.create({
             key: "doc-walk-right",
             frames: this.anims.generateFrameNumbers("ss-doc", {
@@ -126,16 +192,6 @@
             frameRate: 4,
             repeat: 0,
           });
-
-          this.player.play("doc-stop-right");
-          this.player.lastmove = "doc-stop-right";
-
-          const pm = this.playerMovement;
-          this.input.keyboard.on("keydown", pm);
-          this.input.keyboard.on("keyup", pm);
-
-          // const enemies = this.physics.add.group();
-          // enemies.create(320, 10, "enemy");
         }
 
         playerMovement(event) {
@@ -243,8 +299,58 @@
           }
         }
 
+        getNextMove(movs, lastmove) {
+          if (Math.floor(Math.random() * 2) && movs.indexOf(lastmove) >= 0) {
+            return lastmove;
+          }
+
+          return movs[Math.floor(Math.random() * movs.length)];
+        }
+
+        getTileIndexByOffset(obj, x, y) {
+          return this.layer.getTileAtWorldXY(obj.x + x, obj.y + y, true).index;
+        }
+
         update() {
-          //console.log("update")
+          var movs = [];
+          const offset = 32;
+
+          if (this.getTileIndexByOffset(this.covy, 0, offset) !== 2) {
+            movs.push("down");
+          }
+          if (this.getTileIndexByOffset(this.covy, 0, -offset) !== 2) {
+            movs.push("up");
+          }
+          if (this.getTileIndexByOffset(this.covy, -offset, 0) !== 2) {
+            movs.push("left");
+          }
+          if (this.getTileIndexByOffset(this.covy, offset, 0) !== 2) {
+            movs.push("right");
+          }
+
+          var nextMove = this.getNextMove(movs, this.covy.lastmove);
+          this.covy.lastmove = nextMove;
+
+          switch (nextMove) {
+            case "left":
+              this.covy.x -= offset;
+              this.covy.play("covy-walk-left");
+              break;
+            case "right":
+              this.covy.x += offset;
+              this.covy.play("covy-walk-right");
+              break;
+            case "down":
+              this.covy.y += offset;
+              this.covy.play("covy-walk-down");
+              break;
+            case "up":
+              this.covy.y -= offset;
+              this.covy.play("covy-walk-up");
+              break;
+          }
+
+          console.log(nextMove);
         }
       }
 
@@ -256,6 +362,13 @@
         pixelArt: true,
         backgroundColor: "#1a1a2d",
         scene: [Example],
+        physics: {
+          default: "arcade",
+          arcade: {
+            debug: false,
+            gravity: { y: 0 },
+          },
+        },
       };
 
       const game = new Phaser.Game(config);
