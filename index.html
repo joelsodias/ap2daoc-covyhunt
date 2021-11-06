@@ -78,6 +78,13 @@
 
           // const enemies = this.physics.add.group();
           // enemies.create(32+16, 32+16 , "enemy");
+
+          this.timedEvent = this.time.addEvent({
+            delay: 300,
+            callback: this.moveEnemies,
+            callbackScope: this,
+            loop: true,
+          });
         }
 
         setCovyAnims() {
@@ -311,7 +318,7 @@
           return this.layer.getTileAtWorldXY(obj.x + x, obj.y + y, true).index;
         }
 
-        update() {
+        moveEnemies() {
           var movs = [];
           const offset = 32;
 
@@ -352,6 +359,8 @@
 
           console.log(nextMove);
         }
+
+        update() {}
       }
 
       const config = {
