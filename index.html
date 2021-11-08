@@ -229,14 +229,14 @@
               case "ArrowLeft":
               case "a":
                 var tile = this.scene.layer.getTileAtWorldXY(
-                  this.scene.player.x - 16,
+                  this.scene.player.x - 32,
                   this.scene.player.y,
                   true
                 );
                 if (tile.index === 2) {
                   //  Blocked, we can't move
                 } else {
-                  this.scene.player.x -= 4;
+                  this.scene.player.x -= 32;
                   if (this.scene.player.lastmove !== "doc-walk-left") {
                     this.scene.player.play("doc-walk-left");
                     this.scene.player.lastmove = "doc-walk-left";
@@ -248,7 +248,7 @@
               case "ArrowRight":
               case "d":
                 var tile = this.scene.layer.getTileAtWorldXY(
-                  this.scene.player.x + 16,
+                  this.scene.player.x + 32,
                   this.scene.player.y,
                   true
                 );
@@ -256,7 +256,7 @@
                 if (tile.index === 2) {
                   //  Blocked, we can't move
                 } else {
-                  this.scene.player.x += 4;
+                  this.scene.player.x += 32;
                   if (this.scene.player.lastmove !== "doc-walk-right") {
                     this.scene.player.play("doc-walk-right");
                     this.scene.player.lastmove = "doc-walk-right";
@@ -268,14 +268,14 @@
               case "s":
                 var tile = this.scene.layer.getTileAtWorldXY(
                   this.scene.player.x,
-                  this.scene.player.y + 16,
+                  this.scene.player.y + 32,
                   true
                 );
 
                 if (tile.index === 2) {
                   //  Blocked, we can't move
                 } else {
-                  this.scene.player.y += 4;
+                  this.scene.player.y += 32;
                   if (this.scene.player.lastmove !== "doc-walk-down") {
                     this.scene.player.play("doc-walk-down");
                     this.scene.player.lastmove = "doc-walk-down";
@@ -287,14 +287,14 @@
               case "w":
                 var tile = this.scene.layer.getTileAtWorldXY(
                   this.scene.player.x,
-                  this.scene.player.y - 16,
+                  this.scene.player.y - 32,
                   true
                 );
 
                 if (tile.index === 2) {
                   //  Blocked, we can't move
                 } else {
-                  this.scene.player.y -= 4;
+                  this.scene.player.y -= 32;
                   if (this.scene.player.lastmove !== "doc-walk-up") {
                     this.scene.player.play("doc-walk-up");
                     this.scene.player.lastmove = "doc-walk-up";
@@ -307,7 +307,7 @@
         }
 
         getNextMove(movs, lastmove) {
-          if (Math.floor(Math.random() * 2) && movs.indexOf(lastmove) >= 0) {
+          if (Math.floor(Math.random() * 16) && movs.indexOf(lastmove) >= 0) {
             return lastmove;
           }
 
@@ -336,27 +336,31 @@
           }
 
           var nextMove = this.getNextMove(movs, this.covy.lastmove);
-          this.covy.lastmove = nextMove;
 
           switch (nextMove) {
             case "left":
               this.covy.x -= offset;
               this.covy.play("covy-walk-left");
+              (this.covy.lastmove != "left") ? this.covy.play("covy-walk-left") : null ;
               break;
             case "right":
               this.covy.x += offset;
               this.covy.play("covy-walk-right");
+              (this.covy.lastmove != "right") ? this.covy.play("covy-walk-right") : null ;
               break;
             case "down":
               this.covy.y += offset;
               this.covy.play("covy-walk-down");
+              (this.covy.lastmove != "down") ? this.covy.play("covy-walk-down") : null ;
               break;
             case "up":
               this.covy.y -= offset;
-              this.covy.play("covy-walk-up");
+              (this.covy.lastmove != "up") ? this.covy.play("covy-walk-up") : null ;
               break;
           }
 
+          this.covy.lastmove = nextMove;
+          
           console.log(nextMove);
         }
 
@@ -374,7 +378,7 @@
         physics: {
           default: "arcade",
           arcade: {
-            debug: false,
+            debug: true,
             gravity: { y: 0 },
           },
         },
