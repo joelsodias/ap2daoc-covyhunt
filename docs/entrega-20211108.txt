@@ -1,0 +1,10 @@
+CovyHunt
+
+Link do Brainstorm
+https://miro.com/app/board/o9J_lkoB_xc=/?invite_link_id=91711677403
+
+Link do Prototipo
+https://joelsodias.github.io/ap2daoc/
+
+Link do repositório Github
+https://github.com/joelsodias/ap2daoc-covyhunt
