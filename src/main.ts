@@ -6,11 +6,12 @@ import GameUI from "./scenes/GameUI";
 
 const config = {
     type: Phaser.AUTO,
-    width: 400,
+    width: 600,
     height: 400,
     parent: "phaser-game",
     pixelArt: true,
-    backgroundColor: "#1a1a2d",
+    backgroundColor: "#aaa",
+//    backgroundColor: "#1a1a2d",
     scene: [Preloader, Game, GameUI],
     physics: {
       default: "arcade",
@@ -20,7 +21,7 @@ const config = {
       },
     },
     scale: {
-      zoom: 2
+      zoom: 1.5
     }
   };
 

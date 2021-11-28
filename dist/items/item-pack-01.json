@@ -1,6 +1,6 @@
 {
-  "frames": {
-    "vaccine_box_open_anim_f0.png": {
+  "frames": [{
+      "filename": "vaccine_box_open_anim_f0.png",
       "frame": {
         "x": 2,
         "y": 2,
@@ -24,7 +24,8 @@
         "y": 0.5
       }
     },
-    "vaccine_box_open_anim_f1.png": {
+    {
+      "filename": "vaccine_box_open_anim_f1.png",
       "frame": {
         "x": 2,
         "y": 20,
@@ -48,7 +49,8 @@
         "y": 0.5
       }
     },
-    "vaccine_box_open_anim_f2.png": {
+    {
+      "filename": "vaccine_box_open_anim_f2.png",
       "frame": {
         "x": 22,
         "y": 2,
@@ -72,12 +74,13 @@
         "y": 0.5
       }
     },
-    "injection.png": {
+    {
+      "filename": "injection-white.png",
       "frame": {
-        "x": 23,
-        "y": 20,
-        "w": 5,
-        "h": 15
+        "x": 22,
+        "y": 32,
+        "w": 15,
+        "h": 5
       },
       "rotated": false,
       "trimmed": true,
@@ -96,7 +99,33 @@
         "y": 0.5
       }
     },
-    "coin_anim_f0.png": {
+    {
+      "filename": "injection-black.png",
+      "frame": {
+        "x": 22,
+        "y": 39,
+        "w": 15,
+        "h": 5
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 1,
+        "y": 1,
+        "w": 5,
+        "h": 15
+      },
+      "sourceSize": {
+        "w": 5,
+        "h": 15
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "coin_anim_f0.png",
       "frame": {
         "x": 22,
         "y": 22,
@@ -112,15 +141,16 @@
         "h": 7
       },
       "sourceSize": {
-        "w": 8,
-        "h": 8
+        "w": 6,
+        "h": 7
       },
       "pivot": {
         "x": 0.5,
         "y": 0.5
       }
     },
-    "coin_anim_f1.png": {
+    {
+      "filename": "coin_anim_f1.png",
       "frame": {
         "x": 32,
         "y": 22,
@@ -144,7 +174,8 @@
         "y": 0.5
       }
     },
-    "coin_anim_f2.png": {
+    {
+      "filename": "coin_anim_f2.png",
       "frame": {
         "x": 2,
         "y": 39,
@@ -168,7 +199,8 @@
         "y": 0.5
       }
     },
-    "coin_anim_f3.png": {
+    {
+      "filename": "coin_anim_f3.png",
       "frame": {
         "x": 8,
         "y": 39,
@@ -192,7 +224,7 @@
         "y": 0.5
       }
     }
-  },
+  ],
   "meta": {
     "app": "http://free-tex-packer.com",
     "version": "0.6.5",

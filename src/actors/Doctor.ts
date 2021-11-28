@@ -29,6 +29,7 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite
 
 	private _health = 5
 	private _coins = 0
+	private _injections = 2
 
 	private injections?: Phaser.Physics.Arcade.Group
 	private activeVaccineBox?: VaccineBox
@@ -95,7 +96,7 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite
 		}
 
 
-		const injection = this.injections.get(this.x, this.y, 'injection') as Phaser.Physics.Arcade.Image
+		const injection = this.injections.get(this.x, this.y, 'injection-black.png') as Phaser.Physics.Arcade.Image
 
 		if (!injection)
 		{
