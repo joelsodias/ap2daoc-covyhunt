@@ -1,0 +1,38 @@
+{
+	"name": "ap2daoc-covyhunt",
+	"version": "1.0.0",
+	"description": "A practical DAOC development using Phaser3 and Parceljs",
+	"scripts": {
+		"start": "parcel --no-cache src/index.html -p 8000",
+		"build": "parcel build --no-content-hash --no-optimize --no-cache src/index.html",
+		"build-optimize": "parcel build src/index.html",
+		"build-gh": "parcel build src/index.html --public-url /ap2daoc/",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "joelsodias",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/joelsodias/ap2daoc-covyhunt.git"
+	},
+	"homepage": "https://joelsodias.github.io/ap2daoc-covyhunt/",
+	"devDependencies": {
+		"minimist": ">=1.2.2",
+		"parcel": "^2.0.1",
+		"parcel-plugin-clean-easy": "^1.0.2",
+		"parcel-plugin-static-files-copy": "^2.6.0"
+	},
+	"dependencies": {
+		"@types/node": "^13.13.5",
+		"phaser": "^3.55.2",
+		"typescript": "^3.8.3"
+	},
+	"parcelCleanPaths": [
+		"dist",
+		".parcel-cache"
+	],
+	"staticFiles": {
+		"staticPath": "public",
+		"watcherGlob": "**"
+	}
+}
