@@ -4,7 +4,7 @@
   <export target="../../../public/tilemaps/map-01/map-01-teste.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="map-01" tilewidth="16" tileheight="16" tilecount="160" columns="10">
-  <image source="../map-base_tiles.png" width="160" height="256"/>
+  <image source="../map-base.png" width="160" height="256"/>
   <tile id="0">
    <properties>
     <property name="collides" type="bool" value="false"/>

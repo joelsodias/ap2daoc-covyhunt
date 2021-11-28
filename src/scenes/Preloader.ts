@@ -28,9 +28,9 @@ export default class Preloader extends Phaser.Scene {
     );
 
     
-    this.load.image("tiles", "tilemaps/map-01/map-01_tiles_extruded.png");
+    this.load.image("tiles", "tilemaps/map-base.png");
 
-    this.load.tilemapTiledJSON("map-01", "tilemaps/map-01/map-01-teste.json");
+    this.load.tilemapTiledJSON("map-01", "tilemaps/map-02.json");
 
     
   }

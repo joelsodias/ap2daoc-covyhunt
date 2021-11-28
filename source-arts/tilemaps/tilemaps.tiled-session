@@ -3,8 +3,9 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "map-02/map-02.tmx",
     "expandedProjectPaths": [
+        "map-01"
     ],
     "file.lastUsedOpenFilter": "Todos os Ficheiros (*)",
     "fileStates": {
@@ -28,14 +29,27 @@
             "selectedLayer": 4,
             "viewCenter": {
                 "x": 229,
-                "y": 243.99999999999997
+                "y": 333.33333333333337
             }
         },
         "map-01/map-01.tmx#map-01": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "map-02/map-02.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1098.4848484848485,
+                "y": 1193.939393939394
+            }
+        },
+        "map-02/map-02.tmx#map-01": {
+            "scaleInDock": 3,
+            "scaleInEditor": 1
         }
     },
-    "last.exportedFilePath": "/home/joelso/src/github/joelsodias/ap2daoc/public/tilemaps/map-01",
+    "last.exportedFilePath": "/home/joelso/src/github/joelsodias/ap2daoc/dist/tilemaps",
     "last.imagePath": "/home/joelso/src/github/joelsodias/ap2daoc/source-arts/tilemaps",
     "last.objectTypesPath": "/home/joelso/src/github/joelsodias/ap2daoc/public/tilemaps/map-01/map-01.json",
     "map.fixedSize": false,
@@ -43,9 +57,11 @@
     "map.tileHeight": 16,
     "map.tileWidth": 16,
     "openFiles": [
+        "map-02/map-02.tmx"
     ],
     "project": "tilemaps.tiled-project",
     "recentFiles": [
+        "map-02/map-02.tmx",
         "map-01/map-01.tmx",
         "/home/joelso/src/github/joelsodias/ap2daoc/public/tilemaps/map-01/map-01.json"
     ]
