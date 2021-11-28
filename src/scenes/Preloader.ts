@@ -26,7 +26,7 @@ export default class Preloader extends Phaser.Scene {
       "items/item-pack-01.json"
     );
 
-    
+    this.add.image(200, 200, 'injection', 'injection.png')
 
     this.load.image("tiles", "tilemaps/map-01/map-01_tiles_extruded.png");
 

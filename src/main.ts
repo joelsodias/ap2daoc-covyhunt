@@ -6,8 +6,8 @@ import GameUI from "./scenes/GameUI";
 
 const config = {
     type: Phaser.AUTO,
-    width: 850,
-    height: 650,
+    width: 400,
+    height: 400,
     parent: "phaser-game",
     pixelArt: true,
     backgroundColor: "#1a1a2d",
