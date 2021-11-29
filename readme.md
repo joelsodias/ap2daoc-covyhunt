@@ -4,7 +4,7 @@ Project to accomplish Component-Based Application Development (DAOC) discipline 
 
 # Demo
 
-[ap2daoc-covyhunt](https://joelsodias.github.io/ap2daoc-covyhunt/index.html)
+[ap2daoc-covyhunt](https://joelsodias.github.io/ap2daoc-covyhunt/dist/index.html)
 
 # Linux Instalation
 
