@@ -213,7 +213,7 @@
         {
          "columns":10,
          "firstgid":1,
-         "image":"..\/..\/source-arts\/tilemaps\/map-base.png",
+         "image":"map-base-extruded.png",
          "imageheight":256,
          "imagewidth":160,
          "margin":0,

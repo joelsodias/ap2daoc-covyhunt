@@ -25,10 +25,15 @@ export default class GameUI extends Phaser.Scene
 			fontSize: '14'
 		})
 
-
+        this.add.image(180, 8, 'ss-tiles', 7 )
+        
 
 		sceneEvents.on('player-coins-changed', (coins: number) => {
 			coinsLabel.text = coins.toLocaleString()
+		})
+		
+		sceneEvents.on('player-injections-changed', (injections: number) => {
+			injectionsLabel.text = injections.toLocaleString()
 		})
 
 		this.hearts = this.add.group({

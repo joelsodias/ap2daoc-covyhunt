@@ -5,8 +5,22 @@ export default class Preloader extends Phaser.Scene {
   constructor() {
     super("preloader");
   }
-
+  
+  
   preload() {
+  
+    this.load.image("tiles", "tilemaps/map-base.png");
+    this.load.tilemapTiledJSON({
+      key: 'map',
+      url: 'tilemaps/map-novo-03.json'
+    });
+  
+    this.load.spritesheet("ss-tiles", "tilemaps/map-base.png", {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+  
     this.load.spritesheet("ss-doc", "sprites/doc-sheet-32x32.png", {
       frameWidth: 32,
       frameHeight: 32,
@@ -22,16 +36,15 @@ export default class Preloader extends Phaser.Scene {
 
     this.load.atlas({
       key:"ss-pack-01",
-      textureURL:"items/item-pack-01.png",
-      atlasURL:"items/item-pack-01.json"
+      textureURL:"items/item-pack-01v2.png",
+      atlasURL:"items/item-pack-01v2.json"
     }
     );
 
+    //this.load.image('injection-black', 'injection-black.png');
+
     
-    this.load.image("tiles", "tilemaps/map-base.png");
-
-    this.load.tilemapTiledJSON("map-01", "tilemaps/map-02.json");
-
+    
     
   }
 
