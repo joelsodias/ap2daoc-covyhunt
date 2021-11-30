@@ -12,7 +12,7 @@ export default class Preloader extends Phaser.Scene {
     this.load.image("tiles", "tilemaps/map-base.png");
     this.load.tilemapTiledJSON({
       key: 'map',
-      url: 'tilemaps/map-novo-03.json'
+      url: 'tilemaps/level-test.json'
     });
   
     this.load.spritesheet("ss-tiles", "tilemaps/map-base.png", {

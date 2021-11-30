@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "map-novo-03.tmx",
+    "activeFile": "level-test.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "Todos os Ficheiros (*)",
@@ -11,6 +11,17 @@
         "": {
             "scaleInDock": 2,
             "scaleInEditor": 1
+        },
+        "level-test.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 53.333333333333314,
+                "y": 130.99999999999997
+            }
+        },
+        "level-test.tmx#map-base": {
+            "scaleInDock": 2
         },
         "map-01.tmx": {
             "scale": 0.5,
@@ -22,20 +33,9 @@
         },
         "map-01.tmx#map-01": {
             "scaleInDock": 1.5
-        },
-        "map-novo-03.tmx": {
-            "scale": 1.5,
-            "selectedLayer": 5,
-            "viewCenter": {
-                "x": 161,
-                "y": 156.33333333333331
-            }
-        },
-        "map-novo-03.tmx#map-base": {
-            "scaleInDock": 2
         }
     },
-    "last.exportedFilePath": "/home/joelso/src/github/joelsodias/ap2daoc/dist/tilemaps",
+    "last.exportedFilePath": "/home/joelso/src/github/joelsodias/ap2daoc/source-arts/tilemaps",
     "last.imagePath": "/home/joelso/src/github/joelsodias/ap2daoc/source-arts/tilemaps",
     "map.fixedSize": false,
     "map.lastUsedExportFilter": "Ficheiros mapa JSON (*.json)",
@@ -43,12 +43,12 @@
     "map.tileHeight": 16,
     "map.tileWidth": 16,
     "openFiles": [
-        "map-novo-03.tmx"
+        "level-test.tmx"
     ],
     "project": "",
     "property.type": "bool",
     "recentFiles": [
-        "map-novo-03.tmx",
+        "level-test.tmx",
         "map-01.tmx"
     ],
     "tileset.embedInMap": true,
