@@ -62,8 +62,12 @@ export default class Game extends Phaser.Scene
 		const tileset = map.addTilesetImage('map-base','tiles', 16, 16, 0, 0)
 
 		const groundLayer = map.createLayer('Ground', tileset)
+
 		const wallsLayer = map.createLayer('Walls', tileset)
 		wallsLayer.setCollisionByProperty({ collides: true })
+
+		const gateLayer = map.createLayer('Gate', tileset)
+		gateLayer.setCollisionByProperty({ collides: true })
 
 
 		this.injections = this.physics.add.group({
@@ -116,6 +120,7 @@ export default class Game extends Phaser.Scene
 		})
 
 		this.physics.add.collider(this.doctor, wallsLayer)
+		this.physics.add.collider(this.doctor, gateLayer, this.handlePlayerGateCollision, undefined, this)
 		this.physics.add.collider(this.enemies, wallsLayer)
 
 		this.physics.add.collider(this.doctor, heartGroup, this.handlePlayerHeartCollision, undefined, this)
@@ -126,6 +131,13 @@ export default class Game extends Phaser.Scene
 		this.physics.add.collider(this.injections, this.enemies, this.handleInjectionEnemyCollision, undefined, this)
 
 		this.PlayerEnemiesCollider = this.physics.add.collider(this.enemies, this.doctor, this.handlePlayerEnemiesCollision, undefined, this)
+	}
+
+
+
+	private handlePlayerGateCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
+	{
+		console.log("colidiu com o portão")
 	}
 
 	private handlePlayerHeartCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)

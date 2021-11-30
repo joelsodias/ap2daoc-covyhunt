@@ -41,10 +41,6 @@ export default class Preloader extends Phaser.Scene {
     }
     );
 
-    //this.load.image('injection-black', 'injection-black.png');
-
-    
-    
     
   }
 
