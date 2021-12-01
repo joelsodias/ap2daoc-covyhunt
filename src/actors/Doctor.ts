@@ -1,5 +1,6 @@
-import Phaser from "phaser";
+import Phaser, { Game } from "phaser";
 import VaccineBox from "../items/VaccineBox";
+import GameScene from "../scenes/GameScene";
 
 import { sceneEvents } from "../events/EventsCenter";
 
@@ -33,6 +34,8 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
   private injectionGroup?: Phaser.Physics.Arcade.Group;
   private activeVaccineBox?: VaccineBox;
 
+  private gameScene: GameScene;
+
   get health() {
     return this.healthCount;
   }
@@ -46,9 +49,15 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
   ) {
     super(scene, x, y, texture, frame);
 
+    this.gameScene = scene as GameScene
+
     this.anims.play("doc-stop-down");
     //sceneEvents.emit("player-injections-changed", this.injectionCount);
 
+  }
+
+  setGameScene(scene: GameScene){
+    this.gameScene = scene;
   }
 
   setInjectionGroup(injectionGroup: Phaser.Physics.Arcade.Group) {
@@ -75,6 +84,8 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
       this.healthState = HealthState.DEAD;
       this.anims.play("doc-stop-fail");
       this.setVelocity(0, 0);
+      this.gameScene.handleGameOver();
+            
     } else {
       this.setVelocity(dir.x, dir.y);
 

@@ -1,18 +1,20 @@
 import Phaser from "phaser";
 
-import Game from "./scenes/Game";
+import GameScene from './scenes/GameScene';
 import Preloader from "./scenes/Preloader";
 import GameUI from "./scenes/GameUI";
 
 const config = {
   type: Phaser.AUTO,
-  width: 600,
-  height: 400,
+  mode: Phaser.Scale.FIT,
+  autoCenter: Phaser.Scale.CENTER_BOTH,
+  width: 800,
+  height: 600,
   parent: "phaser-game",
   pixelArt: true,
   backgroundColor: "#aaa",
   //    backgroundColor: "#1a1a2d",
-  scene: [Preloader, Game, GameUI],
+  scene: [Preloader, GameScene, GameUI],
   physics: {
     default: "arcade",
     arcade: {

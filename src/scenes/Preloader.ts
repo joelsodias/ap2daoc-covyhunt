@@ -19,6 +19,8 @@ export default class Preloader extends Phaser.Scene {
   }
 
   preload() {
+    this.load.image("game-over", "images/gameover-transparent.png");
+    
     this.load.image("tiles", "tilemaps/map-base.png");
 
     var levelUrl = "tilemaps/level-" + this.levelToLoad.toString() + ".json";
