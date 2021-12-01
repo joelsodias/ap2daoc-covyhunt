@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Nome ao Ranking</title>
+    <link rel="stylesheet" href="ranking.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+</head>
+
+<body>
+<div class="bg">
+    <header>
+        <h1 id="logo">Covy Hunter</h1>
+        <h1>Total de <span id="pontos">**</span> Pontos</h1> 
+        <h1>Adicionar nome ao Ranking:</h1>
+    </header>
+
+    <form action=adicionarNomeRanking.js>
+        <input class="campoNome" type="text" maxlength="15" id="nomes" name="nomes" autocomplete="off" onkeypress="doNothing()"><br><br>
+        <input type="button" id="confirmar" value="Confirmar">
+        <input type="button" onclick="javascript:window.location='ranking.html';" value="Cancelar">
+    </div>
+         <script src='adicionarNomeRanking.js'></script>
+</body>
+
+</html>
