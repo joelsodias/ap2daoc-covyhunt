@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Covy Hunter</title>
    
     <script type="module" src="main.ts"></script>
@@ -14,9 +14,26 @@
         background-color: black;
         color: white;
       }
-    </style>
+
+      #divRank.hidden {
+        display: none;
+      } 
+
+      #divRank.visible {
+        display:block;
+        position: absolute;
+        z-index: 1000;
+        border:1px solid red;
+      }
+
+    
+</style>
   </head>
   <body>
+    <button id="btnShow">show</button>
+    <div id="divRank" class="hidden">
+          teste
+    </div>
     <p id="loading" style="display: none">
       Please wait, loading Phaser build ...
     </p>

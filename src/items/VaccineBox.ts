@@ -6,17 +6,17 @@ export default class VaccineBox extends Phaser.Physics.Arcade.Sprite
 	{
 		super(scene, x, y, texture, frame)
 
-		this.play('vaccine-box-closed')
+		this.play('vaccine-box-full')
 	}
 
 	open()
 	{
-		if (this.anims.currentAnim.key !== 'vaccine-box-closed')
+		if (this.anims.currentAnim.key !== 'vaccine-box-full')
 		{
 			return 0
 		}
 
-		this.play('vaccine-box-open')
+		this.play('vaccine-box-empty')
 		return Phaser.Math.Between(50, 200)
 	}
 }

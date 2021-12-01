@@ -14,10 +14,27 @@
         background-color: black;
         color: white;
       }
+
+      #divRank.hidden {
+        display: none;
+      } 
+
+      #divRank.visible {
+        display:block;
+        position: absolute;
+        z-index: 1000;
+        border:1px solid red;
+      }
+
     
+
 </style>
   </head>
   <body>
+    <button id="btnShow">show</button>
+    <div id="divRank" class="hidden">
+          teste
+    </div>
     <p id="loading" style="display: none">
       Please wait, loading Phaser build ...
     </p>

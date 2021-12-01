@@ -26,15 +26,15 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
   private healthState = HealthState.STOPED;
   private HURTTime = 0;
 
-  private _health = 5;
-  private _coins = 0;
-  private _injections = 2;
+  private healthCount:integer;
+  private coinCount:integer;
+  private injectionCount:integer;
 
-  private injections?: Phaser.Physics.Arcade.Group;
+  private injectionGroup?: Phaser.Physics.Arcade.Group;
   private activeVaccineBox?: VaccineBox;
 
   get health() {
-    return this._health;
+    return this.healthCount;
   }
 
   constructor(
@@ -47,10 +47,12 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, texture, frame);
 
     this.anims.play("doc-stop-down");
+    //sceneEvents.emit("player-injections-changed", this.injectionCount);
+
   }
 
-  setinjections(injections: Phaser.Physics.Arcade.Group) {
-    this.injections = injections;
+  setInjectionGroup(injectionGroup: Phaser.Physics.Arcade.Group) {
+    this.injectionGroup = injectionGroup;
   }
 
   setVaccineBox(VaccineBox: VaccineBox) {
@@ -58,7 +60,7 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
   }
 
   handleHURT(dir: Phaser.Math.Vector2) {
-    if (this._health <= 0) {
+    if (this.healthCount <= 0) {
       return;
     }
 
@@ -66,12 +68,12 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
       return;
     }
 
-    --this._health;
+    --this.healthCount;
 
-    if (this._health <= 0) {
+    if (this.healthCount <= 0) {
       // TODO: die
       this.healthState = HealthState.DEAD;
-      this.anims.play("doc-angry");
+      this.anims.play("doc-stop-fail");
       this.setVelocity(0, 0);
     } else {
       this.setVelocity(dir.x, dir.y);
@@ -84,18 +86,18 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
   }
 
   collectCoin(quantity: integer) {
-    this._coins += quantity;
-    sceneEvents.emit("player-coins-changed", this._coins);
+    this.coinCount += quantity;
+    sceneEvents.emit("player-coins-changed", this.coinCount);
   }
 
   collectInjection(quantity: integer) {
-    this._injections += quantity;
-    sceneEvents.emit("player-injections-changed", this._injections);
+    this.injectionCount += quantity;
+    sceneEvents.emit("player-injections-changed", this.injectionCount);
   }
 
   collectHealth(quantity: integer) {
-    this._health += quantity;
-    sceneEvents.emit("player-health-changed", this._health);
+    this.healthCount += quantity;
+    sceneEvents.emit("player-health-changed", this.healthCount);
   }
 
   private throwInjection() {
@@ -104,11 +106,11 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
       oldBodyX,
       oldBodyY = 0;
 
-    if ((!this.injections) || (this._injections < 1)) {
+    if (!this.injectionGroup || this.injectionCount < 1) {
       return;
     }
 
-    const injection = this.injections.get(
+    const injection = this.injectionGroup.get(
       this.x,
       this.y,
       "ss-pack-01",
@@ -177,11 +179,38 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
     injection.body.x = injection.x;
     injection.body.y = injection.y;
 
-    this._injections -= 1;
+    this.injectionCount -= 1;
 
-    sceneEvents.emit("player-injections-changed", this._injections)
-
+    sceneEvents.emit("player-injections-changed", this.injectionCount);
+    if (this.injectionCount <= 0) {
+      this.play(this.anims.currentAnim.key.replace("-injection", ""));
+    }
   }
+
+  getHealth() {
+    return this.healthCount
+  }
+
+  setHealth(value:integer) {
+    this.healthCount = value;
+  }
+
+  getCoins() {
+    return this.coinCount
+  }
+
+  setCoins(value:integer) {
+    this.coinCount = value;
+  }
+
+  getInjections() {
+    return this.injectionCount
+  }
+
+  setInjections(value:integer) {
+    this.injectionCount = value
+  }
+
 
   preUpdate(t: number, dt: number) {
     super.preUpdate(t, dt);
@@ -215,10 +244,15 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
 
     if (Phaser.Input.Keyboard.JustDown(cursors.space!)) {
       if (this.activeVaccineBox) {
-        const coins = this.activeVaccineBox.open();
+        if (
+          this.activeVaccineBox.anims.currentAnim.key === "vaccine-box-full"
+        ) {
+          const coins = this.activeVaccineBox.open();
 
-        this._injections += 2;
-        sceneEvents.emit("player-injections-changed", this._injections);
+          this.collectInjection(2);
+
+          //sceneEvents.emit("player-injections-changed", this.injectionCount);
+        }
       } else {
         this.throwInjection();
       }
@@ -231,29 +265,43 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
     const rightDown = cursors.right?.isDown;
     const upDown = cursors.up?.isDown;
     const downDown = cursors.down?.isDown;
+    var postfix = "";
+
+    if (this.injectionCount > 0) {
+      postfix = "-injection";
+    }
 
     if (leftDown) {
-      this.anims.play("doc-walk-left", true);
+      this.anims.play("doc-walk-left" + postfix, true);
       this.setVelocity(-speed, 0);
 
       //this.scaleX = -1
       this.body.offset.x = 8;
     } else if (rightDown) {
-      this.anims.play("doc-walk-right", true);
+      this.anims.play("doc-walk-right" + postfix, true);
       this.setVelocity(speed, 0);
 
       //this.scaleX = 1
       this.body.offset.x = 8;
     } else if (upDown) {
-      this.anims.play("doc-walk-up", true);
+      this.anims.play("doc-walk-up" + postfix, true);
       this.setVelocity(0, -speed);
     } else if (downDown) {
-      this.anims.play("doc-walk-down", true);
+      this.anims.play("doc-walk-down" + postfix, true);
       this.setVelocity(0, speed);
     } else {
-      const parts = this.anims.currentAnim.key.split("-");
+      var currentAnim = this.anims.currentAnim.key;
+      const parts = currentAnim.split("-");
       parts[1] = "stop";
-      this.anims.play(parts.join("-"));
+
+      if (parts[2] == "success" || parts[2] == "fail") {
+        postfix = "";
+      }
+
+      var newAnim = parts.join("-");
+      if (newAnim !== currentAnim) {
+        this.anims.play(parts.join("-"));
+      }
       this.setVelocity(0, 0);
     }
 
