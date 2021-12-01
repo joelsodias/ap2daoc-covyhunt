@@ -1,9 +1,7 @@
-const KEY = 'facil'
-
-const setValue = (value) => localStorage.setItem(KEY, JSON.stringify(value))
+const setValue = (value) => localStorage.setItem("ranking", JSON.stringify(value))
 
 const getValue = () => {
-  const value = localStorage.getItem(KEY)
+  const value = localStorage.getItem("ranking")
   return value ? JSON.parse(value) : []
 }
 
