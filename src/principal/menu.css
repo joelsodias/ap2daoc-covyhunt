@@ -60,7 +60,7 @@ body,html {
 
 h1 {
   font-family: Pixelar Regular W01 Regular, sans-serif;
-  color: #EF9611;
+  color: #5084A7;
   font-size: 30px;
   font-style: normal;
   padding-bottom: -10px;
@@ -68,7 +68,7 @@ h1 {
 
 #list{
   font-family: Pixelar Regular W01 Regular, sans-serif;
-  color: #EF9611;
+  color: #5084A7;
   font-size: 30px;
   font-style: normal;
   font-weight: bold;
@@ -76,7 +76,7 @@ h1 {
 }
 input{
   font-family: Pixelar Regular W01 Regular;
-  color: #EF9611;
+  color: #5084A7;
   background:  transparent;
   border:  none;
   font-size: 50px;
@@ -92,13 +92,13 @@ table {
 
 th {
   font-family: Pixelar Regular W01 Regular, sans-serif;
-  font-size: 30px;
-  color: #EF9611;
+  font-size: 50px;
+  color: #5084A7;
 }
 
 th a {
   text-decoration: none;
-  color: #EF9611;
+  color: #5084A7;
 }
 li {
   margin-right: 30px;
