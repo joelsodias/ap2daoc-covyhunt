@@ -1,14 +1,14 @@
-@font-face {font-family: "Pixelar Regular W01 Regular";
-  src: url("@font-face/b2e75c336df191233b3096682c9ee6be.eot"); /* IE9*/
-  src: url("@font-face/b2e75c336df191233b3096682c9ee6be.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-  url("@font-face/b2e75c336df191233b3096682c9ee6be.woff2") format("woff2"), /* chrome、firefox */
-  url("@font-face/b2e75c336df191233b3096682c9ee6be.woff") format("woff"), /* chrome、firefox */
-  url("@font-face/b2e75c336df191233b3096682c9ee6be.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-  url("@font-face/b2e75c336df191233b3096682c9ee6be.svg#Pixelar Regular W01 Regular") format("svg"); /* iOS 4.1- */
+@font-face {font-family: "Pixelar";
+  src: url("../fonts/Pixelar.eot"); /* IE9*/
+  src: url("../fonts/Pixelar.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+  url("../fonts/Pixelar.woff2") format("woff2"), /* chrome、firefox */
+  url("../fonts/Pixelar.woff") format("woff"), /* chrome、firefox */
+  url("../fonts/Pixelar.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url("../fonts/Pixelar.svg#Pixelar") format("svg"); /* iOS 4.1- */
 }
 
 * {
-  font-family: Pixelar Regular W01 Regular;
+  font-family: Pixelar;
   box-sizing: border-box;
   text-shadow: 3px 3px black;
 }
@@ -21,7 +21,7 @@ body,html {
 }
 
 .bg {
-  background: url("index/wallpaper2.jfif");
+  background: url("../images/wallpaper.jfif");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -40,18 +40,18 @@ body,html {
 
 
 #logo{
-  font-family: Pixelar Regular W01 Regular;
+  font-family: Pixelar;
   font-size: 70px;
 }
 
 .campoNome{    
   background: transparent;
-  background-image: url(campo.png);
+  background-image: url("../images/field.png");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   width: 60vh;
-  height: auto;
+  height: 80px;
   border: none;
   outline: none;
   font-size: 70px;
@@ -59,7 +59,7 @@ body,html {
 }
 
 h1 {
-  font-family: Pixelar Regular W01 Regular, sans-serif;
+  font-family: Pixelar, sans-serif;
   color: #5084A7;
   font-size: 30px;
   font-style: normal;
@@ -67,7 +67,7 @@ h1 {
 }
 
 #list{
-  font-family: Pixelar Regular W01 Regular, sans-serif;
+  font-family: Pixelar, sans-serif;
   color: #5084A7;
   font-size: 30px;
   font-style: normal;
@@ -75,7 +75,7 @@ h1 {
   overflow: auto;
 }
 input{
-  font-family: Pixelar Regular W01 Regular;
+  font-family: Pixelar;
   color: #5084A7;
   background:  transparent;
   border:  none;
@@ -91,15 +91,22 @@ table {
 }
 
 th {
-  font-family: Pixelar Regular W01 Regular, sans-serif;
+  font-family: Pixelar, sans-serif;
   font-size: 50px;
   color: #5084A7;
 }
 
-th a {
+th a #jogar #rankingButton #buttonBack {
   text-decoration: none;
   color: #5084A7;
 }
 li {
   margin-right: 30px;
+}
+
+#ranking, #menu, #addRanking{
+  display: none;
+}
+.hide{
+  display: none;
 }

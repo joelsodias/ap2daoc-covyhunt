@@ -5,9 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Covy Hunter</title>
+    <link rel="stylesheet" href="../public/css/style.css">
    
     <script type="module" src="main.ts"></script>
 
+    <script src='page.js'></script>
     
     <style>
       body {
@@ -17,12 +19,62 @@
     </style>
   </head>
   <body>
+
+    
     <p id="loading" style="display: none">
       Please wait, loading Phaser build ...
     </p>
 
     <div id="phaser-game"></div>
+    
+    <div id=menu>
+      <div class=bg>
+          <header>
+              <h1 id="logo">Covy Hunter</h1>
+          </header>
+          <table>
+            <thead>
+                <th><div id="jogar">Jogar</div></th>
+            </thead>
+            <thead>
+              <th><div id=rankingButton>Ranking</div></th>
+            </thead>
+        </table>
+      </div>
+    </div>
 
+    <div id=ranking>
+      <div class=bg>
+          <header>
+              <h1 id="logo">Covy Hunter</h1>
+              <h1>Ranking</h1>
+          </header>
+
+          <ol id="list">
+          </ol>
+          <table>
+              <thead>
+                  <th><div id=buttonBack>Voltar</div></th>
+              </thead>
+          </table>
+          <br>
+      </div>
+    </div>
+
+    <div id=addRanking>
+      <div class="bg">
+          <header>
+              <h1 id="logo">Covy Hunter</h1>
+              <h1>Total de <span id="pontos">**</span> Pontos</h1> 
+              <h1>Adicionar nome ao Ranking:</h1>
+          </header>
+      
+          <form action=page.js>
+              <input class="campoNome" type="text" maxlength="15" id="nomes" name="nomes" autocomplete="off" onkeypress="doNothing()"><br><br>
+              <input type="button" id="confirmar" value="Confirmar">
+              <input type="button" id="buttonCancel" value="Cancelar">
+      </div>
+    </div>
 
   </body>
 </html>
