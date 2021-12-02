@@ -213,29 +213,29 @@ export default class GameScene extends Phaser.Scene {
     if (this.doctor.health <= 0) {
       this.PlayerEnemiesCollider?.destroy();
       this.physics.pause();
-      this.imageGameOver = this.add.image(this.doctor.x, this.doctor.y, "game-over");
+      this.imageGameOver = this.add.image(
+        this.doctor.x,
+        this.doctor.y,
+        "game-over"
+      );
 
-      localStorage.setItem("currentRanking", this.doctor.getCoins().toString()); 
+      localStorage.setItem("currentRanking", this.doctor.getCoins().toString());
 
       this.input.on("pointerdown", () => {
-        
-        this.input.removeListener("pointerdown",this.handleCloseGame);
-        this.imageGameOver.destroy()
+        this.input.removeListener("pointerdown", this.handleCloseGame);
+        this.imageGameOver.destroy();
         var gameWrapper = document.getElementById("phaser-game-wrapper");
         gameWrapper.style.display = "none";
         var addRanking = document.getElementById("addRanking");
         addRanking.style.display = "block";
-
+        //this.registry.destroy(); // destroy registry
+        //this.scene.remove("game")
+        this.scene.start("preloader",{level:1, coins:0, injections: 2});
       });
     }
   }
 
-  handleCloseGame(){
-    
-
-  }
-
-
+  handleCloseGame() {}
 
   private handlePlayerGateCollision(
     obj1: Phaser.GameObjects.GameObject,
