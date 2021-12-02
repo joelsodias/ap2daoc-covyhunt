@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Covy Hunter</title>
-   
+
     <script type="module" src="main.ts"></script>
 
-    
     <style>
       body {
         background-color: black;
@@ -17,29 +16,33 @@
 
       #divRank.hidden {
         display: none;
-      } 
-
-      #divRank.visible {
-        display:block;
-        position: absolute;
-        z-index: 1000;
-        border:1px solid red;
       }
 
-    
-</style>
+      #divRank.visible {
+        display: block;
+        position: absolute;
+        z-index: 1000;
+        border: 1px solid red;
+      }
+
+      .teste {
+        background-image: url("../dist/images/gameover-transparent.png");
+      }
+    </style>
   </head>
   <body>
-    <button id="btnShow">show</button>
-    <div id="divRank" class="hidden">
-          teste
-    </div>
+
+    
+    <div id="divMenu" ><a id="btnTeste" href="#">teste de menu</a>></div>
+    <div id="divMenu2" ><a id="btnTeste2" href="#">teste de menu 2</a>></div>
+
+    <div id="divRank" class="hidden">teste de rank</div>
+
     <p id="loading" style="display: none">
       Please wait, loading Phaser build ...
     </p>
-
-    <div id="phaser-game"></div>
-
-
+    <div id="phaser-game-wrapper" class="hidden">
+      <div id="phaser-game"></div>
+    </div>
   </body>
 </html>

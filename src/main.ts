@@ -31,25 +31,41 @@ const game = new Phaser.Game(config);
 let maingame = game;
 
 window.onload = function () {
-  var btnShow = document.getElementById("btnShow");
-  var phaserGame = document.getElementById("phaser-game");
+  
+  var gameWrapper = document.getElementById("phaser-game-wrapper");
+  gameWrapper.style.display="none"
 
-  btnShow!.onclick = function () {
-    var mainCanvas = phaserGame!.children[0] as HTMLCanvasElement;
-    var divRank = document.getElementById("divRank");
+  var btnTeste = document.getElementById("btnTeste");
 
-    if (divRank !== undefined) {
+  btnTeste!.onclick = function () {
+    //var mainCanvas = phaserGame!.children[0] as HTMLCanvasElement;
+    var gameWrapper = document.getElementById("phaser-game-wrapper");
+    
+    var divMenu = document.getElementById("divMenu");
       
-      divRank.classList.remove("hidden");
-      divRank.classList.add("visible");
-      divRank.style.left = Math.floor(mainCanvas.width * 0.2).toString() + "px";
-      divRank.style.top = Math.floor(mainCanvas.height * 0.2 + mainCanvas.clientTop).toString() + "px";
-      divRank.style.width =
-        Math.floor(mainCanvas.width * 0.8).toString() + "px";
-      divRank.style.height =
-        Math.floor(mainCanvas.height * 0.8).toString() + "px";
+      divMenu.style.display="none"
+      gameWrapper.style.display="block"
 
-      console.log(divRank);
-    }
   };
+
+  var btnTeste2 = document.getElementById("btnTeste2");
+
+  btnTeste2!.onclick = function () {
+    //var mainCanvas = phaserGame!.children[0] as HTMLCanvasElement;
+
+    goRank()
+
+  };
+
+
 };
+
+export function goRank(): void {
+  // your code
+
+  var gameWrapper = document.getElementById("phaser-game-wrapper");
+  gameWrapper.style.display="none"
+  var divRank = document.getElementById("divRank");
+  divRank.style.display="block"
+
+}

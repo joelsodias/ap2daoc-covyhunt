@@ -2,6 +2,11 @@
 
 Project to accomplish Component-Based Application Development (DAOC) discipline from Lutheran University of Brazil (ULBRA)
 
+# Documentation
+
+A technical [documentation](https://joelsodias.github.io/ap2daoc-covyhunt/dist/index.html) is available
+
+
 # Demo
 
 [ap2daoc-covyhunt](https://joelsodias.github.io/ap2daoc-covyhunt/dist/index.html)
@@ -38,3 +43,4 @@ git clone https://github.com/joelsodias/ap2daoc-covyhunt.git ~/covy-hunt
 # Step 6: open a browser (using another terminal)
 
 ``` xdg-open http://localhost:8000 ```
+

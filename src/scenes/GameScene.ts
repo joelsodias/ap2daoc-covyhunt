@@ -36,6 +36,7 @@ export default class GameScene extends Phaser.Scene {
   private injectionCount:integer;
   private healthCount:integer;
 
+  private coinSound!: Phaser.Sound.BaseSound;
 
   constructor() {
     super("game");
@@ -86,7 +87,7 @@ export default class GameScene extends Phaser.Scene {
     this.doctor.setInjectionGroup(this.injectionGroup);
     this.doctor.setInjections(this.injectionCount);
     this.doctor.setCoins(this.coinCount);
-	this.doctor.setHealth(this.healthCount);
+	  this.doctor.setHealth(this.healthCount);
 
     this.cameras.main.startFollow(this.doctor, true);
 
@@ -113,6 +114,8 @@ export default class GameScene extends Phaser.Scene {
         "ss-pack-01"
       );
     });
+
+    this.coinSound = this.sound.add("coin", { loop: false });
 
     this.coinGroup = this.physics.add.group({
       classType: Coin,
@@ -204,6 +207,7 @@ export default class GameScene extends Phaser.Scene {
       this.PlayerEnemiesCollider?.destroy();
       this.physics.pause();
       this.add.image(200,200,"game-over")
+      
     }
   }
 
@@ -233,6 +237,8 @@ export default class GameScene extends Phaser.Scene {
     obj2.destroy();
     var doc = obj1 as Doctor;
     doc.collectCoin(1);
+    this.coinSound.play();
+    
   }
 
   private handlePlayerVaccineBoxCollision(
