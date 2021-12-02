@@ -51,7 +51,7 @@ export default class GameScene extends Phaser.Scene {
     this.coinCount = data.coins ?? 0;
     this.injectionCount = data.injections ?? 2;
     this.healthCount = data.health ?? 5;
-    this.maxLevels = data.maxLevels ?? 1;
+    this.maxLevels = data.maxlevels ?? 1;
   }
 
   preload() {
