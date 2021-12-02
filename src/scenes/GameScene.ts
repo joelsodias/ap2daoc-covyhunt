@@ -165,6 +165,7 @@ export default class GameScene extends Phaser.Scene {
       this
     );
     this.physics.add.collider(this.enemyGroup, wallsLayer);
+    this.physics.add.collider(this.enemyGroup, gateLayer);
 
     this.physics.add.collider(
       this.doctor,
@@ -279,7 +280,8 @@ export default class GameScene extends Phaser.Scene {
     console.log("colidiu com o portão");
     this.doctor.play("doc-stop-success");
 
-    if (this.maxLevels > this.currentLevel) {
+    if (this.maxLevels >= this.currentLevel+1) {
+
       this.scene.start("preloader", {
         level: this.currentLevel + 1,
         health: this.doctor.getHealth(),

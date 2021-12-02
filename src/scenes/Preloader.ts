@@ -17,7 +17,7 @@ export default class Preloader extends Phaser.Scene {
     this.coinCount = data.coins ?? 0;
     this.injectionCount = data.injections ?? 2;
     this.healthCount = data.health ?? 5;
-    this.maxLevels = data.health ?? 5;
+    this.maxLevels = data.maxlevels ?? 5;
   }
 
   preload() {

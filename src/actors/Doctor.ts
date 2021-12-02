@@ -21,16 +21,16 @@ enum HealthState {
   STOPED,
   HURT,
   DEAD,
-  WINNER
+  WINNER,
 }
 
 export default class Doctor extends Phaser.Physics.Arcade.Sprite {
   private healthState = HealthState.STOPED;
   private HURTTime = 0;
 
-  private healthCount:integer;
-  private coinCount:integer;
-  private injectionCount:integer;
+  private healthCount: integer;
+  private coinCount: integer;
+  private injectionCount: integer;
 
   private injectionGroup?: Phaser.Physics.Arcade.Group;
   private activeVaccineBox?: VaccineBox;
@@ -50,14 +50,13 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
   ) {
     super(scene, x, y, texture, frame);
 
-    this.gameScene = scene as GameScene
+    this.gameScene = scene as GameScene;
 
     this.anims.play("doc-stop-down");
     //sceneEvents.emit("player-injections-changed", this.injectionCount);
-
   }
 
-  setGameScene(scene: GameScene){
+  setGameScene(scene: GameScene) {
     this.gameScene = scene;
   }
 
@@ -86,7 +85,6 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
       this.anims.play("doc-stop-fail");
       this.setVelocity(0, 0);
       this.gameScene.handleGameOver(false);
-            
     } else {
       this.setVelocity(dir.x, dir.y);
 
@@ -114,8 +112,10 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
   }
 
   collectHealth(quantity: integer) {
-    this.healthCount += quantity;
-    sceneEvents.emit("player-health-changed", this.healthCount);
+    if (this.healthCount + quantity <= 5) {
+      this.healthCount += quantity;
+      sceneEvents.emit("player-health-changed", this.healthCount);
+    }
   }
 
   private throwInjection() {
@@ -206,29 +206,28 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
   }
 
   getHealth() {
-    return this.healthCount
+    return this.healthCount;
   }
 
-  setHealth(value:integer) {
+  setHealth(value: integer) {
     this.healthCount = value;
   }
 
   getCoins() {
-    return this.coinCount
+    return this.coinCount;
   }
 
-  setCoins(value:integer) {
+  setCoins(value: integer) {
     this.coinCount = value;
   }
 
   getInjections() {
-    return this.injectionCount
+    return this.injectionCount;
   }
 
-  setInjections(value:integer) {
-    this.injectionCount = value
+  setInjections(value: integer) {
+    this.injectionCount = value;
   }
-
 
   preUpdate(t: number, dt: number) {
     super.preUpdate(t, dt);
@@ -251,8 +250,8 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
   update(cursors: Phaser.Types.Input.Keyboard.CursorKeys) {
     if (
       this.healthState === HealthState.HURT ||
-      this.healthState === HealthState.DEAD || 
-      this.healthState === HealthState.WINNER  
+      this.healthState === HealthState.DEAD ||
+      this.healthState === HealthState.WINNER
     ) {
       return;
     }
