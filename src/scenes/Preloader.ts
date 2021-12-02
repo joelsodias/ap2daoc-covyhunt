@@ -5,7 +5,7 @@ export default class Preloader extends Phaser.Scene {
   private coinCount: integer;
   private injectionCount: integer;
   private healthCount: integer;
-  private maxLevels: integer = 1;
+  private maxLevels: integer;
 
   constructor() {
     super("preloader");
@@ -17,6 +17,7 @@ export default class Preloader extends Phaser.Scene {
     this.coinCount = data.coins ?? 0;
     this.injectionCount = data.injections ?? 2;
     this.healthCount = data.health ?? 5;
+    this.maxLevels = data.health ?? 5;
   }
 
   preload() {
@@ -27,7 +28,7 @@ export default class Preloader extends Phaser.Scene {
 
     this.load.image("tiles", "tilemaps/map-base.png");
 
-    this.maxLevels = 5;
+    
     var levelUrl = "tilemaps/level-" + this.levelToLoad.toString() + ".json";
 
     this.cache.tilemap.remove("map");
