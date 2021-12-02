@@ -197,4 +197,13 @@ header{
   flex-wrap: nowrap;
   align-items: flex-end;
 }
+
+#btnJogar,
+#rankingButton,
+#buttonBack,
+#btConfirm,
+#btCancel
+{
+  cursor: pointer;
+}
 /*# sourceMappingURL=index.9b1ff252.css.map */

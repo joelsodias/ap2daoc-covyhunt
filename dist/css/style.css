@@ -191,3 +191,12 @@ header{
   flex-wrap: nowrap;
   align-items: flex-end;
 }
+
+#btnJogar,
+#rankingButton,
+#buttonBack,
+#btConfirm,
+#btCancel
+{
+  cursor: pointer;
+}
