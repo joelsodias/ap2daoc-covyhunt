@@ -55,7 +55,6 @@ export default class GameScene extends Phaser.Scene {
 
   create() {
 
-
     this.scene.run("game-ui", {level:this.currentLevel , health: this.healthCount, coins: this.coinCount, injections: this.injectionCount});
 
     createDoctorAnims(this.anims);
