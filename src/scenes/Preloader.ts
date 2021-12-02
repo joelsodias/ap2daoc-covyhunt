@@ -27,7 +27,7 @@ export default class Preloader extends Phaser.Scene {
 
     this.load.image("tiles", "tilemaps/map-base.png");
 
-    this.maxLevels = 1;
+    this.maxLevels = 5;
     var levelUrl = "tilemaps/level-" + this.levelToLoad.toString() + ".json";
 
     this.cache.tilemap.remove("map");
