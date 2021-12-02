@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Covy Hunter</title>
 
+    <link rel="stylesheet" href="../dist/css/style.css" />
     <script type="module" src="main.ts"></script>
+    <script src="utils/Ranking.ts"></script>
 
     <style>
       body {
@@ -24,23 +26,71 @@
         z-index: 1000;
         border: 1px solid red;
       }
-
-      .teste {
-        background-image: url("../dist/images/gameover-transparent.png");
-      }
     </style>
   </head>
   <body>
+    <div id="divMenu" class="visible">
+      <div class="bg">
+        <header>
+          <div id="logo"></div>
+        </header>
+        <br /><br />
+        <table>
+          <thead>
+            <th><div id="btnJogar">Jogar</div></th>
+          </thead>
+          <thead>
+            <th><div id="rankingButton">Ranking</div></th>
+          </thead>
+        </table>
+      </div>
+    </div>
 
-    
-    <div id="divMenu" ><a id="btnTeste" href="#">teste de menu</a>></div>
-    <div id="divMenu2" ><a id="btnTeste2" href="#">teste de menu 2</a>></div>
+    <div id="divRanking" class="hidden">
+      <div class="bg">
+        <header>
+          <div id="doctor"></div>
+          <div id="titulo">Covy Hunt!</div>
+          <div id="covid"></div>
+        </header>
 
-    <div id="divRank" class="hidden">teste de rank</div>
+        <h1>Ranking</h1>
+        <ol id="list"></ol>
+        <table>
+          <thead>
+            <th><div id="buttonBack">Voltar</div></th>
+          </thead>
+        </table>
+        <br />
+      </div>
+    </div>
 
-    <p id="loading" style="display: none">
-      Please wait, loading Phaser build ...
-    </p>
+    <div id="addRanking" class="hidden">
+      <div class="bg">
+        <header>
+          <div id="doctor"></div>
+          <div id="titulo">Covy Hunt!</div>
+          <div id="covid"></div>
+        </header>
+        <h1>Total de <span id="pontos">**</span> Pontos</h1>
+        <h1>Adicionar nome ao Ranking:</h1>
+
+        <!--form id="formRanking" action="utils/AddRanking.ts"-->
+        <form id="formRanking" action="#">
+          <input
+            class="campoNome"
+            type="text"
+            maxlength="15"
+            id="nomes"
+            name="nomes"
+            autocomplete="off"
+          /><br /><br />
+          <input type="submit" id="btConfirm" value="Confirmar" />
+          <input type="button" id="btCancel" value="Cancelar" />
+        </form>
+      </div>
+    </div>
+
     <div id="phaser-game-wrapper" class="hidden">
       <div id="phaser-game"></div>
     </div>

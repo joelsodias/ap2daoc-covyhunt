@@ -21,8 +21,8 @@ export default class Preloader extends Phaser.Scene {
   preload() {
 
     this.load.audio('coin',"sound/coin.mp3");
-    
-    this.load.image("game-over", "images/gameover-transparent.png");
+
+    this.load.image("game-over", "images/gameover.png");
     
     this.load.image("tiles", "tilemaps/map-base.png");
 

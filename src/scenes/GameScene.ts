@@ -1,4 +1,4 @@
-import Phaser, { Tilemaps } from "phaser";
+import Phaser, { Scene, Scenes, Tilemaps } from "phaser";
 
 import { debugDraw } from "~/utils/debug";
 import { createCovyAnims } from "../animations/CovyAnims";
@@ -31,22 +31,24 @@ export default class GameScene extends Phaser.Scene {
 
   private map!: Phaser.Tilemaps.Tilemap;
 
-  private currentLevel:integer;
-  private coinCount:integer;
-  private injectionCount:integer;
-  private healthCount:integer;
+  private currentLevel: integer;
+  private coinCount: integer;
+  private injectionCount: integer;
+  private healthCount: integer;
 
   private coinSound!: Phaser.Sound.BaseSound;
+
+  private imageGameOver!: Phaser.GameObjects.Image;
 
   constructor() {
     super("game");
   }
 
   init(data) {
-	this.currentLevel = data.level ?? 1
+    this.currentLevel = data.level ?? 1;
     this.coinCount = data.coins ?? 0;
-    this.injectionCount = data.injections ?? 2;	
-	this.healthCount = data.health ?? 5;
+    this.injectionCount = data.injections ?? 2;
+    this.healthCount = data.health ?? 5;
   }
 
   preload() {
@@ -54,8 +56,14 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
+    this.input.mouse.disableContextMenu();
 
-    this.scene.run("game-ui", {level:this.currentLevel , health: this.healthCount, coins: this.coinCount, injections: this.injectionCount});
+    this.scene.run("game-ui", {
+      level: this.currentLevel,
+      health: this.healthCount,
+      coins: this.coinCount,
+      injections: this.injectionCount,
+    });
 
     createDoctorAnims(this.anims);
     createCovyAnims(this.anims);
@@ -86,7 +94,7 @@ export default class GameScene extends Phaser.Scene {
     this.doctor.setInjectionGroup(this.injectionGroup);
     this.doctor.setInjections(this.injectionCount);
     this.doctor.setCoins(this.coinCount);
-	  this.doctor.setHealth(this.healthCount);
+    this.doctor.setHealth(this.healthCount);
 
     this.cameras.main.startFollow(this.doctor, true);
 
@@ -201,14 +209,33 @@ export default class GameScene extends Phaser.Scene {
     );
   }
 
-  handleGameOver(){
+  handleGameOver() {
     if (this.doctor.health <= 0) {
       this.PlayerEnemiesCollider?.destroy();
       this.physics.pause();
-      this.add.image(200,200,"game-over")
-      
+      this.imageGameOver = this.add.image(this.doctor.x, this.doctor.y, "game-over");
+
+      localStorage.setItem("currentRanking", this.doctor.getCoins().toString()); 
+
+      this.input.on("pointerdown", () => {
+        
+        this.input.removeListener("pointerdown",this.handleCloseGame);
+        this.imageGameOver.destroy()
+        var gameWrapper = document.getElementById("phaser-game-wrapper");
+        gameWrapper.style.display = "none";
+        var addRanking = document.getElementById("addRanking");
+        addRanking.style.display = "block";
+
+      });
     }
   }
+
+  handleCloseGame(){
+    
+
+  }
+
+
 
   private handlePlayerGateCollision(
     obj1: Phaser.GameObjects.GameObject,
@@ -217,7 +244,12 @@ export default class GameScene extends Phaser.Scene {
     console.log("colidiu com o portão");
     this.doctor.play("doc-stop-success");
 
-    this.scene.start("preloader", { level: this.currentLevel + 1, health: this.doctor.getHealth(), coins: this.doctor.getCoins(), injections: this.doctor.getInjections() });
+    this.scene.start("preloader", {
+      level: this.currentLevel + 1,
+      health: this.doctor.getHealth(),
+      coins: this.doctor.getCoins(),
+      injections: this.doctor.getInjections(),
+    });
   }
 
   private handlePlayerHeartCollision(
@@ -237,7 +269,6 @@ export default class GameScene extends Phaser.Scene {
     var doc = obj1 as Doctor;
     doc.collectCoin(1);
     this.coinSound.play();
-    
   }
 
   private handlePlayerVaccineBoxCollision(
@@ -280,8 +311,6 @@ export default class GameScene extends Phaser.Scene {
     this.doctor.handleHURT(dir);
 
     sceneEvents.emit("player-health-changed", this.doctor.health);
-
-    
   }
 
   update(t: number, dt: number) {
