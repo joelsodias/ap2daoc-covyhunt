@@ -21,6 +21,7 @@ enum HealthState {
   STOPED,
   HURT,
   DEAD,
+  WINNER
 }
 
 export default class Doctor extends Phaser.Physics.Arcade.Sprite {
@@ -84,7 +85,7 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
       this.healthState = HealthState.DEAD;
       this.anims.play("doc-stop-fail");
       this.setVelocity(0, 0);
-      this.gameScene.handleGameOver();
+      this.gameScene.handleGameOver(false);
             
     } else {
       this.setVelocity(dir.x, dir.y);
@@ -94,6 +95,12 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
       this.healthState = HealthState.HURT;
       this.HURTTime = 0;
     }
+  }
+
+  setWinner() {
+    this.healthState = HealthState.WINNER;
+    this.anims.play("doc-stop-success");
+    this.setVelocity(0, 0);
   }
 
   collectCoin(quantity: integer) {
@@ -244,7 +251,8 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
   update(cursors: Phaser.Types.Input.Keyboard.CursorKeys) {
     if (
       this.healthState === HealthState.HURT ||
-      this.healthState === HealthState.DEAD
+      this.healthState === HealthState.DEAD || 
+      this.healthState === HealthState.WINNER  
     ) {
       return;
     }

@@ -40,6 +40,8 @@ export default class GameScene extends Phaser.Scene {
 
   private imageGameOver!: Phaser.GameObjects.Image;
 
+  private maxLevels: integer = 1;
+
   constructor() {
     super("game");
   }
@@ -49,6 +51,7 @@ export default class GameScene extends Phaser.Scene {
     this.coinCount = data.coins ?? 0;
     this.injectionCount = data.injections ?? 2;
     this.healthCount = data.health ?? 5;
+    this.maxLevels = data.maxLevels ?? 1;
   }
 
   preload() {
@@ -209,33 +212,60 @@ export default class GameScene extends Phaser.Scene {
     );
   }
 
-  handleGameOver() {
-    if (this.doctor.health <= 0) {
-      this.PlayerEnemiesCollider?.destroy();
-      this.physics.pause();
+  handleGameOver(win: boolean) {
+    //if (this.doctor.health <= 0) {
+    
+    if (win) {
       this.imageGameOver = this.add.image(
         this.doctor.x,
         this.doctor.y,
-        "game-over"
+        "game-over-win"
       );
 
-      localStorage.setItem("currentRanking", this.doctor.getCoins().toString());
+      this.doctor.setWinner();
 
-      this.input.on("pointerdown", () => {
-        this.input.removeListener("pointerdown", this.handleCloseGame);
-        this.imageGameOver.destroy();
-        var gameWrapper = document.getElementById("phaser-game-wrapper");
-        gameWrapper.style.display = "none";
-        var addRanking = document.getElementById("addRanking");
-        addRanking.style.display = "block";
-        //this.registry.destroy(); // destroy registry
-        //this.scene.remove("game")
-        this.scene.start("preloader",{level:1, coins:0, injections: 2});
-      });
+    } else {
+      this.imageGameOver = this.add.image(
+        this.doctor.x,
+        this.doctor.y,
+        "game-over-fail"
+        );
+        
     }
+
+    this.PlayerEnemiesCollider?.destroy();
+    this.physics.pause();
+
+
+    localStorage.setItem("currentRanking", this.doctor.getCoins().toString());
+
+//    this.input.on("pointerdown", this.handleCloseGame);
+    this.input.on("pointerdown", () => {
+      this.input.removeListener("pointerdown", this.handleCloseGame);
+      this.imageGameOver.destroy();
+      var gameWrapper = document.getElementById("phaser-game-wrapper");
+      gameWrapper.style.display = "none";
+      var addRanking = document.getElementById("addRanking");
+      addRanking.style.display = "block";
+      //this.registry.destroy(); // destroy registry
+      //this.scene.remove("game")
+
+      this.scene.start("preloader",{level:1, coins:0, injections: 2});
+    });
   }
 
-  handleCloseGame() {}
+  handleCloseGame() {
+    // this.input.removeListener("pointerdown", this.handleCloseGame);
+    // this.imageGameOver.destroy();
+    // var gameWrapper = document.getElementById("phaser-game-wrapper");
+    // gameWrapper.style.display = "none";
+    // var addRanking = document.getElementById("addRanking");
+    // addRanking.style.display = "block";
+    // //this.registry.destroy(); // destroy registry
+    // //this.scene.remove("game")
+
+    // this.scene.start("preloader", { level: 1, coins: 0, injections: 2 });
+  }
 
   private handlePlayerGateCollision(
     obj1: Phaser.GameObjects.GameObject,
@@ -244,12 +274,16 @@ export default class GameScene extends Phaser.Scene {
     console.log("colidiu com o portão");
     this.doctor.play("doc-stop-success");
 
-    this.scene.start("preloader", {
-      level: this.currentLevel + 1,
-      health: this.doctor.getHealth(),
-      coins: this.doctor.getCoins(),
-      injections: this.doctor.getInjections(),
-    });
+    if (this.maxLevels > this.currentLevel) {
+      this.scene.start("preloader", {
+        level: this.currentLevel + 1,
+        health: this.doctor.getHealth(),
+        coins: this.doctor.getCoins(),
+        injections: this.doctor.getInjections(),
+      });
+    } else {
+      this.handleGameOver(true);
+    }
   }
 
   private handlePlayerHeartCollision(

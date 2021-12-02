@@ -3,8 +3,9 @@ import Phaser from "phaser";
 export default class Preloader extends Phaser.Scene {
   private levelToLoad = 0;
   private coinCount: integer;
-  private injectionCount:integer;
-  private healthCount:integer;
+  private injectionCount: integer;
+  private healthCount: integer;
+  private maxLevels: integer = 1;
 
   constructor() {
     super("preloader");
@@ -19,15 +20,15 @@ export default class Preloader extends Phaser.Scene {
   }
 
   preload() {
+    this.load.audio("coin", "sound/coin.mp3");
 
-    this.load.audio('coin',"sound/coin.mp3");
+    this.load.image("game-over-fail", "images/gameover.png");
+    this.load.image("game-over-win", "images/win.png");
 
-    this.load.image("game-over", "images/gameover.png");
-    
     this.load.image("tiles", "tilemaps/map-base.png");
 
+    this.maxLevels = 1;
     var levelUrl = "tilemaps/level-" + this.levelToLoad.toString() + ".json";
-    //var levelUrl = "tilemaps/level-5.json";
 
     this.cache.tilemap.remove("map");
     this.load.tilemapTiledJSON({
@@ -61,6 +62,12 @@ export default class Preloader extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start("game", {level: this.levelToLoad, health: this.healthCount, coins: this.coinCount, injections: this.injectionCount});
+    this.scene.start("game", {
+      maxlevels: this.maxLevels,
+      level: this.levelToLoad,
+      health: this.healthCount,
+      coins: this.coinCount,
+      injections: this.injectionCount,
+    });
   }
 }
