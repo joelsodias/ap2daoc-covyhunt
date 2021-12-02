@@ -169,15 +169,21 @@ th {
   color: #2dfe03;
 }
 
+
+p.link-menu a,
 th a{
-  text-decoration: none !important;
+  font-family: Pixelar, sans-serif;
+  font-size: 50px;
   color: #2dfe03;
+  text-decoration: none !important;
+  text-shadow: 3px 3px 0px black;
 }
 
 p a{ 
   color: black; 
   text-shadow: none !important; 
 }
+
 
 .doc{
   color: black;
