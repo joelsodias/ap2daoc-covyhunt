@@ -4,7 +4,7 @@ Project to accomplish Component-Based Application Development (DAOC) discipline 
 
 # Documentation
 
-A technical [documentation](https://joelsodias.github.io/ap2daoc-covyhunt/doc/) (in portuguese) is available
+You can A documentation [in portuguese](https://joelsodias.github.io/ap2daoc-covyhunt/doc/) in portuguese is available.
 
 
 # Demo
