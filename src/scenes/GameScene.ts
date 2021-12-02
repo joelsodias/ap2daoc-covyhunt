@@ -234,8 +234,8 @@ export default class GameScene extends Phaser.Scene {
         
     }
 
-    this.add.text(this.doctor.x, this.doctor.y + 300, "Clique para continuar..", {
-			fontSize: '40',
+    this.add.text(this.doctor.x*0.5, this.doctor.y + 200, "Clique para continuar..", {
+			fontSize: '120',
       color: "#000"
 		})
 
