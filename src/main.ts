@@ -114,6 +114,7 @@ window.onload = function () {
   btConfirm!.onclick = function () {
 
     var nomeField = document.getElementById("nomes") as HTMLInputElement
+    var spPontos = document.getElementById("spPontos") as HTMLSpanElement
     
     console.log("funfou")
     
@@ -126,6 +127,8 @@ window.onload = function () {
       pontuacao = parseInt(localStorage.getItem("currentRanking"))
     }
     
+    spPontos.innerText = pontuacao.toString()
+
     //Verifica se existe
     if (localStorage.hasOwnProperty("ranking"))
       ranking = JSON.parse(localStorage.getItem("ranking"));
