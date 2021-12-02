@@ -18,16 +18,30 @@
     </header>
     
     <h1>Documentação</h1>
-    <div class=doc>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tincidunt vestibulum rutrum. Aenean euismod gravida nunc, ac mattis ex consequat nec. Aliquam dictum efficitur gravida. In pretium aliquet consectetur. Suspendisse rutrum sit amet dui a finibus. Nam erat sem, facilisis non ex in, efficitur condimentum sem. Suspendisse scelerisque molestie elit eget finibus. Proin accumsan, ex sed ultrices bibendum, magna purus ultricies libero, porttitor eleifend urna dui id lacus. Proin pretium vel dolor et blandit. Maecenas erat magna, pulvinar vel pharetra nec, ullamcorper in libero. Phasellus id congue odio. Integer scelerisque velit at purus dignissim dignissim.
-
-        Cras ultrices ultrices urna, vitae elementum magna. Maecenas ac fermentum magna. Phasellus ullamcorper tellus quis neque consectetur, sed vehicula diam varius. Nunc at ante tellus. In maximus enim in efficitur blandit. Praesent egestas arcu orci, quis ultrices ex pretium in. Integer blandit neque at lacus volutpat, vitae vehicula arcu eleifend. Curabitur tempor pulvinar dui ac scelerisque. Curabitur eu venenatis justo.
-        
-        Maecenas hendrerit lorem quis nisl varius semper. Nullam mauris magna, bibendum vel ipsum vel, condimentum mattis nunc. Aliquam nunc odio, eleifend in volutpat sed, varius ac nisl. Aenean sit amet est dolor. Proin sed ultrices ipsum. Duis scelerisque ante blandit euismod fermentum. Ut id dui purus. Sed massa massa, molestie non est in, semper auctor neque. Integer ut facilisis eros, scelerisque pellentesque libero. Donec pharetra cursus suscipit. Donec posuere fringilla posuere. Proin at odio ornare, sollicitudin leo ullamcorper, gravida arcu.
-        
-        Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam non pulvinar leo. Ut lacinia risus sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vestibulum malesuada sapien ut vestibulum. Morbi non iaculis felis, nec placerat dui. Maecenas sit amet massa leo.
-        
-        Donec condimentum dolor a odio luctus, et gravida turpis auctor. Morbi a ipsum mauris. Pellentesque a eleifend leo. In lobortis ornare nisl eget pretium. In non felis gravida lectus mollis finibus eget sit amet sem. Mauris tincidunt ipsum a accumsan rutrum. Phasellus sit amet luctus risus.</div>
-
+    <div class="doc">
+        <h3>Phaser</h3>
+        <p>Biblioteca JavaScript para criação da jogabilidade, movimento dos personagens, ações e fisicas aplicadas. Documentação completa em: https://phaser.io/.</p>
+        <h3>Estrutura</h3>
+        <p>O jogo começa na página main.ts que é responsável por configurar o Phaser, passando alguns parâmetros necessários (documentação completa em: https://phaser.io/), recebendo também as cenas. Toda a estrutura do jogo é baseado nestas cenas. Cada cena tem a sua função:
+        <br>
+        Preloader: é responsável por carregar todos os objetos do jogo, desde o cabeçalho de pontos e vidas, até o labirinto, personagens, armas, espaços em que os objetos são instalados no labirinto, etc.
+        <br>
+        GameScene: realiza a criação dos espaços do jogo, criando o labirinto e áreas que os personagens podem se movimentar, localização onde os objetos criados no Preload ficarão dentro da tela. Criação da movimentação dos personagens, covid e doctor.
+        <br>
+        GameUI: criação do cabeçalho e suas funções, vidas, vacinas e pontos (moedas).
+        <br>
+        Também temos dentro do main.ts as configurações de ações dos botões das telas de menu e ranking.
+        <br>
+        A divisão da aplicação é totalmente modularizada.
+        <br>Animações: cada objeto tem sua própria animação, organizada dentro da sua própria pasta. Assim como os objetos, cada ator (personagem) tem suas animações.
+        </p>
+        <h3>TILED</h3>
+        <p>Para a confecção dos mapas utilizamos o programa TILED, uma plataforma antiga no mercado de games mas bastante confiável e útil para desenvolvimento de games em blocos. Nele montamos o jogo no estilo 2D, ele foi essencial para o desenvolvimento pois podemos criar diferentes camadas e setar algumas propriedades como colisões e interações com objetos, que depois serviram para definir comportamentos pelo PHASER.
+        </p>
+        <h3>LocalStorage (Banco de Dados)</h3>
+        <p>Para fazer o armazenamento dos dados do jogo e também para criar o ranking do Covy Hunt, utilizamos o LocalStorage que faz parte de uma API de javascript chamada Web Storage. O mesmo guarda no cache do navegador os pares de chave e valor. O LocalStorage foi uma alternativa muito bem vista para o nosso projeto, pois se trata de um jogo simples que não carrega nenhum dado sensível do usuário. Nele armazenamos os pontos que o jogador fez nas fases e seu nome, como era feito em jogos antigos no estilo BomberMan.
+        </p>
+    </div>
     <table>
         <thead>
             <th><a href="../html/menu.html">Voltar</a></th>

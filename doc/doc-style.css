@@ -6,7 +6,6 @@
   url("../public/fonts/Pixelar.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
   url("../public/fonts/Pixelar.svg#Pixelar") format("svg"); /* iOS 4.1- */
 }
-
 * {
   font-family: Pixelar;
   box-sizing: border-box;
@@ -58,7 +57,7 @@ body,html {
 
 #logo{
   background: transparent;
-  background-image: url("../public/images/logo.jfif");
+  background-image: url("../public/images/logo.png");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -112,14 +111,22 @@ body,html {
   background-size: cover;
   background-repeat: no-repeat;
   width: 60vh;
-  height: 80px;
+  height: 140px;
   border: none;
   outline: none;
   font-size: 70px;
   text-align: center;          
 }
 
-h1 {
+h1{
+  font-family: Pixelar, sans-serif;
+  color: #2dfe03;
+  font-size: 40px;
+  font-style: normal;
+  padding-bottom: -10px;
+}
+
+h3{
   font-family: Pixelar, sans-serif;
   color: #2dfe03;
   font-size: 30px;
@@ -170,6 +177,14 @@ th a{
 .doc{
   color: black;
   font-size: 40px;
+  margin-left: 30px;
+  margin-right: 30px;
+  text-shadow: none;
+}
+
+p {
+  color: black;
+  font-size: 25px;
   margin-left: 30px;
   margin-right: 30px;
   text-shadow: none;
