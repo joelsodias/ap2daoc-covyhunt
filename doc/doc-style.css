@@ -57,7 +57,7 @@ body,html {
 
 #logo{
   background: transparent;
-  background-image: url("../public/images/logo.png");
+  background-image: url("../dist/images/logo.png");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -70,7 +70,7 @@ body,html {
 }
 #covid{
   background: transparent;
-  background-image: url("../public/images/covid.png");
+  background-image: url("../dist/images/covid.png");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -83,7 +83,7 @@ body,html {
 }
 #doctor{
   background: transparent;
-  background-image: url("../public/images/doctor.png");
+  background-image: url("../dist/images/doctor.png");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;    
@@ -106,7 +106,7 @@ body,html {
 }
 .campoNome{    
   background: transparent;
-  background-image: url("../public/images/field.png");
+  background-image: url("../dist/images/field.png");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
