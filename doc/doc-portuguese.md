@@ -1,5 +1,5 @@
 
-![Logo](../dist/images/logo.png)
+<img src="../dist/images/logo.png" alt="logo" width="150"/>
 
 Version 0.0.1
 
