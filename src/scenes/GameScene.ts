@@ -256,6 +256,9 @@ export default class GameScene extends Phaser.Scene {
       //this.registry.destroy(); // destroy registry
       //this.scene.remove("game")
 
+      var spPontos = document.getElementById("spPontos") as HTMLSpanElement
+      spPontos.innerText = this.doctor.getCoins().toString();
+
       this.scene.start("preloader",{level:1, coins:0, injections: 2});
     });
   }

@@ -111,11 +111,13 @@ window.onload = function () {
     return false;
   };
 
+  
+
   btConfirm!.onclick = function () {
 
     var nomeField = document.getElementById("nomes") as HTMLInputElement
-    var spPontos = document.getElementById("spPontos") as HTMLSpanElement
     
+
     console.log("funfou")
     
     let ranking = new Array();
@@ -127,7 +129,7 @@ window.onload = function () {
       pontuacao = parseInt(localStorage.getItem("currentRanking"))
     }
     
-    spPontos.innerText = pontuacao.toString()
+    
 
     //Verifica se existe
     if (localStorage.hasOwnProperty("ranking"))
