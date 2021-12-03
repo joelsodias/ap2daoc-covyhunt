@@ -9,16 +9,18 @@ The objective bring a doctor who must defeat virueses though a map, colecting co
 
 ## Play the game
 
-Play in [English](https://joelsodias.github.io/ap2daoc-covyhunt/doc/index.html)
+<!-- Play in [English](https://joelsodias.github.io/ap2daoc-covyhunt/doc/index.html) -->
 
-Jogar em [Português](https://joelsodias.github.io/ap2daoc-covyhunt/dist/index-pt.html)
+Jogar em [Português](https://joelsodias.github.io/ap2daoc-covyhunt/dist/index.html)
 
 
 ## Documentation
 
-Documentation in [English](https://joelsodias.github.io/ap2daoc-covyhunt/doc/doc-english.md)
+<!-->
+Documentation in [English](doc/doc-english.md)
+-->
 
-Documentação em [Português](https://joelsodias.github.io/ap2daoc-covyhunt/blob/main/doc/doc-portuguese.md)
+Documentação em [Português](doc/doc-portuguese.md)
 
 
 ## Instalation
