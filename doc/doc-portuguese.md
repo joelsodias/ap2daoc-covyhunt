@@ -1,5 +1,5 @@
 
-![Logo](dist/images/logo.png)
+![Logo](blob/main/dist/images/logo.png)
 
 Version 0.0.1
 
