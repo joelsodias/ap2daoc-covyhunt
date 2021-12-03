@@ -6,16 +6,19 @@ This project creates a game based in [Phaser engine](http://phaser.io) version 3
 
 The objective bring a doctor who must defeat virueses though a map, colecting coins and hearts (lives)  
 
-## Play
 
-Play in [English](https://joelsodias.github.io/ap2daoc-covyhunt/dist/index-en.html)
+## Play the game
 
-Play in [Portuguese](https://joelsodias.github.io/ap2daoc-covyhunt/dist/index-pt.html)
+Play in [English](https://joelsodias.github.io/ap2daoc-covyhunt/doc/index.html)
+
+Jogar em [Português](https://joelsodias.github.io/ap2daoc-covyhunt/dist/index-pt.html)
 
 
 ## Documentation
 
-A portuguese description can be found [here](https://joelsodias.github.io/ap2daoc-covyhunt/doc/).
+Documentation in [English](https://joelsodias.github.io/ap2daoc-covyhunt/doc/doc-english.md)
+
+Documentação em [Português](https://joelsodias.github.io/ap2daoc-covyhunt/doc/doc-portuguese.md)
 
 
 ## Instalation
