@@ -16,7 +16,7 @@ Jogar em [Português](https://joelsodias.github.io/ap2daoc-covyhunt/dist/index.h
 
 ## Documentation
 
-<!-->
+<!--
 Documentation in [English](doc/doc-english.md)
 -->
 
