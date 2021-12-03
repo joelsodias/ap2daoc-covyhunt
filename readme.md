@@ -18,7 +18,7 @@ Jogar em [Português](https://joelsodias.github.io/ap2daoc-covyhunt/dist/index-p
 
 Documentation in [English](https://joelsodias.github.io/ap2daoc-covyhunt/doc/doc-english.md)
 
-Documentação em [Português](https://joelsodias.github.io/ap2daoc-covyhunt/doc/doc-portuguese.md)
+Documentação em [Português](https://joelsodias.github.io/ap2daoc-covyhunt/blob/main/doc/doc-portuguese.md)
 
 
 ## Instalation
