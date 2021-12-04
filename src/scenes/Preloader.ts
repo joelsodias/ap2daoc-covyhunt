@@ -23,6 +23,9 @@ export default class Preloader extends Phaser.Scene {
   preload() {
     this.load.audio("coin", "sound/coin.mp3");
 
+    this.load.bitmapFont('atari', 'fonts/bitmap/gem.png', 'fonts/bitmap/gem.xml');
+    this.load.bitmapFont('nokia16', 'fonts/bitmap/nokia16.png', 'fonts/bitmap/nokia16.xml');
+
     this.load.image("game-over-fail", "images/gameover.png");
     this.load.image("game-over-win", "images/win.png");
 

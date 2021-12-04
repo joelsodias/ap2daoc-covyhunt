@@ -93,7 +93,7 @@ export default class GameScene extends Phaser.Scene {
       maxSize: 5,
     });
 
-    this.doctor = this.add.doctor(100, 100, "ss-doc");
+    this.doctor = this.add.doctor(50, 200, "ss-doc");
     this.doctor.setInjectionGroup(this.injectionGroup);
     this.doctor.setInjections(this.injectionCount);
     this.doctor.setCoins(this.coinCount);
@@ -211,11 +211,71 @@ export default class GameScene extends Phaser.Scene {
       undefined,
       this
     );
+
+    if (this.currentLevel == 1) {
+      // const text = this.add
+      // .bitmapText(this.doctor.x*0.5, this.doctor.y + 200, "atari", "Clique para continuar..", 16)
+      // .setOrigin(0.5)
+      // .setCenterAlign()
+      // .setInteractive()
+      // .setTint(0,0,0,0)
+      this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
+        "olá, me chamo 'Doc' e",
+        "convido você para uma",
+        "uma missão importante!",
+      ]);
+
+      this.physics.pause();
+
+      const text = this.add
+        .bitmapText(
+          this.doctor.x + 100,
+          this.doctor.y + 100,
+          "atari",
+          "Clique para continuar..",
+          16
+        )
+        .setOrigin(0.5)
+        .setCenterAlign()
+        .setInteractive()
+        .setTint(0, 0, 0, 0);
+
+      this.input.on("pointerdown", () => {
+        this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
+          "Vamos usar a vacina ",
+          "contra o COVID-19",
+          "e passar de fase!",
+        ]);
+
+        this.input.on("pointerdown", () => {
+          this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
+            "Você precisa usar as setas",
+            "do teclado para movimentar e ",
+            "e a barra de espaço para",
+            "jogar e coletar itens...",
+          ]);
+          this.input.on("pointerdown", () => {
+            
+            this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
+              "Vamos então?",
+              "",
+              "Conto com você!",
+            ]);
+            this.input.on("pointerdown", () => {
+              this.doctor.closeMessage();
+              this.physics.resume();
+              text.destroy();
+              this.input.removeAllListeners();
+            });
+          });
+        });
+      });
+    }
   }
 
   handleGameOver(win: boolean) {
     //if (this.doctor.health <= 0) {
-    
+
     if (win) {
       this.imageGameOver = this.add.image(
         this.doctor.x,
@@ -224,28 +284,33 @@ export default class GameScene extends Phaser.Scene {
       );
 
       this.doctor.setWinner();
-
     } else {
       this.imageGameOver = this.add.image(
         this.doctor.x,
         this.doctor.y,
         "game-over-fail"
-        );
-        
+      );
     }
 
-    this.add.text(this.doctor.x*0.5, this.doctor.y + 200, "Clique para continuar..", {
-			fontSize: '120',
-      color: "#000"
-		})
+    const text = this.add
+      .bitmapText(
+        this.doctor.x * 0.5,
+        this.doctor.y + 200,
+        "atari",
+        "Clique para continuar..",
+        16
+      )
+      .setOrigin(0.5)
+      .setCenterAlign()
+      .setInteractive()
+      .setTint(0, 0, 0, 0);
 
     this.PlayerEnemiesCollider?.destroy();
     this.physics.pause();
 
-
     localStorage.setItem("currentRanking", this.doctor.getCoins().toString());
 
-//    this.input.on("pointerdown", this.handleCloseGame);
+    //    this.input.on("pointerdown", this.handleCloseGame);
     this.input.on("pointerdown", () => {
       this.input.removeListener("pointerdown", this.handleCloseGame);
       this.imageGameOver.destroy();
@@ -256,10 +321,10 @@ export default class GameScene extends Phaser.Scene {
       //this.registry.destroy(); // destroy registry
       //this.scene.remove("game")
 
-      var spPontos = document.getElementById("spPontos") as HTMLSpanElement
+      var spPontos = document.getElementById("spPontos") as HTMLSpanElement;
       spPontos.innerText = this.doctor.getCoins().toString();
 
-      this.scene.start("preloader",{level:1, coins:0, injections: 2});
+      this.scene.start("preloader", { level: 1, coins: 0, injections: 2 });
     });
   }
 
@@ -272,7 +337,6 @@ export default class GameScene extends Phaser.Scene {
     // addRanking.style.display = "block";
     // //this.registry.destroy(); // destroy registry
     // //this.scene.remove("game")
-
     // this.scene.start("preloader", { level: 1, coins: 0, injections: 2 });
   }
 
@@ -280,11 +344,7 @@ export default class GameScene extends Phaser.Scene {
     obj1: Phaser.GameObjects.GameObject,
     obj2: Phaser.GameObjects.GameObject
   ) {
-    console.log("colidiu com o portão");
-    this.doctor.play("doc-stop-success");
-
-    if (this.maxLevels >= this.currentLevel+1) {
-
+    if (this.maxLevels >= this.currentLevel + 1) {
       this.scene.start("preloader", {
         level: this.currentLevel + 1,
         health: this.doctor.getHealth(),
