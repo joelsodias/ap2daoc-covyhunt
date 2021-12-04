@@ -244,15 +244,15 @@ export default class GameScene extends Phaser.Scene {
         this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
           "Vamos usar a vacina ",
           "contra o COVID-19",
-          "e passar de fase!",
+          "e passar de fase?",
         ]);
 
         this.input.on("pointerdown", () => {
           this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
             "Você precisa usar as setas",
-            "do teclado para movimentar e ",
-            "e a barra de espaço para",
-            "jogar e coletar itens...",
+            "do teclado para se movimentar ",
+            "e a barra de espaço para coletar",
+            "e arremessar itens...",
           ]);
           this.input.on("pointerdown", () => {
             
