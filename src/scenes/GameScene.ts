@@ -49,7 +49,7 @@ export default class GameScene extends Phaser.Scene {
   init(data) {
     this.currentLevel = data.level ?? 1;
     this.coinCount = data.coins ?? 0;
-    this.injectionCount = data.injections ?? 2;
+    this.injectionCount = data.injections ?? 0;
     this.healthCount = data.health ?? 5;
     this.maxLevels = data.maxlevels ?? 1;
   }
@@ -212,6 +212,8 @@ export default class GameScene extends Phaser.Scene {
       this
     );
 
+    this.doctor.play('doc-stop-down');
+
     if (this.currentLevel == 1) {
       // const text = this.add
       // .bitmapText(this.doctor.x*0.5, this.doctor.y + 200, "atari", "Clique para continuar..", 16)
@@ -255,11 +257,10 @@ export default class GameScene extends Phaser.Scene {
             "e arremessar itens...",
           ]);
           this.input.on("pointerdown", () => {
-            
             this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
               "Vamos então?",
-              "",
-              "Conto com você!",
+              "Comece coletando as moedas no meio da sala",
+              "Depois entre no portão!",
             ]);
             this.input.on("pointerdown", () => {
               this.doctor.closeMessage();
@@ -268,6 +269,113 @@ export default class GameScene extends Phaser.Scene {
               this.input.removeAllListeners();
             });
           });
+        });
+      });
+    } else if (this.currentLevel == 2) {
+      const text = this.add
+        .bitmapText(
+          this.doctor.x + 100,
+          this.doctor.y + 100,
+          "atari",
+          "Clique para continuar..",
+          16
+        )
+        .setOrigin(0.5)
+        .setCenterAlign()
+        .setInteractive()
+        .setTint(0, 0, 0, 0);
+
+      this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
+        "Parabéns!!",
+        "",
+        "Estamos nos entendendo muito bem!",
+      ]);
+
+      this.physics.pause();
+      this.input.on("pointerdown", () => {
+        this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
+          "Oba! Mais moedas! ",
+          "O que é aquela caixa?",
+          "Chegue perto e use a barra de espaço",
+          "para coletar vacinas!",
+        ]);
+        this.input.on("pointerdown", () => {
+          this.doctor.closeMessage();
+          this.physics.resume();
+          text.destroy();
+          this.input.removeAllListeners();
+        });
+      });
+    } else if (this.currentLevel == 3) {
+      const text = this.add
+        .bitmapText(
+          this.doctor.x + 100,
+          this.doctor.y + 100,
+          "atari",
+          "Clique para continuar..",
+          16
+        )
+        .setOrigin(0.5)
+        .setCenterAlign()
+        .setInteractive()
+        .setTint(0, 0, 0, 0);
+
+      this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
+        "É isso ai!!!",
+        "Essas vacinas serão importantes",
+        "na nossa missão!",
+      ]);
+
+      this.physics.pause();
+      this.input.on("pointerdown", () => {
+        this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
+          "Cuidado!!!",
+          "Tem um vírus na sala!",
+        ]);
+        this.input.on("pointerdown", () => {
+          this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
+            "Mire nele e use a barra de espaço",
+            "para lançar uma injeção nele!",
+          ]);
+          this.input.on("pointerdown", () => {
+            this.doctor.closeMessage();
+            this.physics.resume();
+            text.destroy();
+            this.input.removeAllListeners();
+          });
+        });
+      });
+    } else if (this.currentLevel == 4) {
+      const text = this.add
+        .bitmapText(
+          this.doctor.x + 100,
+          this.doctor.y + 100,
+          "atari",
+          "Clique para continuar..",
+          16
+        )
+        .setOrigin(0.5)
+        .setCenterAlign()
+        .setInteractive()
+        .setTint(0, 0, 0, 0);
+
+      this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
+        "Uau!",
+        "Você já aprendeu tudo o que ",
+        "precisava para concluir nossa missão!",
+      ]);
+
+      this.physics.pause();
+      this.input.on("pointerdown", () => {
+        this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
+          "Agora é com você!!",
+          "Boa sorte!",
+        ]);
+        this.input.on("pointerdown", () => {
+          this.doctor.closeMessage();
+          this.physics.resume();
+          text.destroy();
+          this.input.removeAllListeners();
         });
       });
     }

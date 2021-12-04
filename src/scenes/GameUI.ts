@@ -20,7 +20,7 @@ export default class GameUI extends Phaser.Scene {
   init(data) {
     this.currentLevel = data.level ?? 1;
     this.coinCount = data.coins ?? 0;
-    this.injectionCount = data.injections ?? 2;
+    this.injectionCount = data.injections ?? 0;
     this.healthCount = data.health ?? 5;
   }
 

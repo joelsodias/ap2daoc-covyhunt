@@ -15,7 +15,7 @@ export default class Preloader extends Phaser.Scene {
     console.log(data);
     this.levelToLoad = data.level ?? 1;
     this.coinCount = data.coins ?? 0;
-    this.injectionCount = data.injections ?? 2;
+    this.injectionCount = data.injections ?? 0;
     this.healthCount = data.health ?? 5;
     this.maxLevels = data.maxlevels ?? 5;
   }
