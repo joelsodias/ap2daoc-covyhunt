@@ -4,8 +4,8 @@
 	"description": "A practical DAOC development using Phaser3 and Parceljs",
 	"scripts": {
 		"start": "parcel --no-cache src/index.html -p 8000",
-		"build-linux": "rm -r dist &&  parcel build --no-content-hash --no-optimize --no-cache src/index.html && cp -r public/* dist",
-		"build": "parcel build --no-content-hash --no-optimize --no-cache src/index.html",
+		"build-linux": "rm -r dist &&  parcel build --no-content-hash --no-optimize --no-cache src/index.html src/index-english.html --dist-dir dist --public-url '' && cp -r public/* dist",
+		"build": "parcel build --no-content-hash --no-optimize --no-cache src/index.html src/index-english.html --dist-dir dist --public-url ''",
 		"build-optimize": "parcel build src/index.html",
 		"build-gh": "parcel build src/index.html --public-url /ap2daoc/",
 		"test": "echo \"Error: no test specified\" && exit 1"

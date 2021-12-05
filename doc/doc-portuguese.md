@@ -5,13 +5,28 @@ Version 0.0.1
 
 # Documentação
 
+
 Este jogo foi desenvolvido utilizando a linguagem Typescript com o auxílio de uma engine para desenvolvimento de jogos 2d chamada [Phaser](https://phaser.io/) (versão 3.55.2)
+
+## Typescript
+
+TypeScript é uma linguagem de programação fortemente tipada que se baseia em JavaScript, oferecendo melhores ferramentas em qualquer escala.
+
+O TypeScript adiciona sintaxe adicional ao JavaScript para oferecer suporte a uma integração mais estreita com editores de código, identificando alguns os erros no diretamente durante a escrita.
+
+Documentação completa pode ser encontrada em: [typescriptlang.org](https://www.typescriptlang.org/)
 
 ## Phaser
 
 Biblioteca JavaScript para criação da jogabilidade, movimento dos personagens, ações e fisicas aplicadas. 
 
-Documentação completa em: [https://phaser.io/](https://phaser.io/)
+Documentação completa pode ser encontrada em: [https://phaser.io/](https://phaser.io/)
+
+## Parcel
+
+Parcel é classificado como *builder* (usado para fazer a compilação e empacotamento) para aplicações web o qual pode manipular JavaScript, CSS, HTML, TypeScript, Node, React, Vue, CoffeeScript, Electron and more.
+
+Documentação completa pode ser encontrada em: [https://parceljs.org/](https://parceljs.org/)
 
 ## Estrutura do Jogo
 
