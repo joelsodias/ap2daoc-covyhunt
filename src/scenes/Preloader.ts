@@ -6,6 +6,7 @@ export default class Preloader extends Phaser.Scene {
   private injectionCount: integer;
   private healthCount: integer;
   private maxLevels: integer;
+  private enemiesDefeated:integer;
 
   constructor() {
     super("preloader");
@@ -18,6 +19,7 @@ export default class Preloader extends Phaser.Scene {
     this.injectionCount = data.injections ?? 0;
     this.healthCount = data.health ?? 5;
     this.maxLevels = data.maxlevels ?? 5;
+    this.enemiesDefeated = data.enemies ?? 0;
   }
 
   preload() {
@@ -70,6 +72,7 @@ export default class Preloader extends Phaser.Scene {
       frameHeight: 32,
     });
 
+    this.load.image("ui-enemy", "ui/ui_enemy.png");
     this.load.image("ui-heart-empty", "ui/ui_heart_empty.png");
     this.load.image("ui-heart-full", "ui/ui_heart_full.png");
 
@@ -87,6 +90,7 @@ export default class Preloader extends Phaser.Scene {
       health: this.healthCount,
       coins: this.coinCount,
       injections: this.injectionCount,
+      enemies: this.enemiesDefeated,
     });
   }
 }

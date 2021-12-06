@@ -7,11 +7,13 @@ export default class GameUI extends Phaser.Scene {
   private injectionsLabel!: Phaser.GameObjects.Text;
   private coinsLabel!: Phaser.GameObjects.Text;
   private levelLabel!: Phaser.GameObjects.Text;
+  private enemiesDefeatedLabel!: Phaser.GameObjects.Text;
 
   private currentLevel: integer;
   private coinCount: integer;
   private injectionCount: integer;
   private healthCount: integer;
+  private enemiesDefeated: integer;
 
   constructor() {
     super({ key: "game-ui" });
@@ -22,6 +24,7 @@ export default class GameUI extends Phaser.Scene {
     this.coinCount = data.coins ?? 0;
     this.injectionCount = data.injections ?? 0;
     this.healthCount = data.health ?? 5;
+    this.enemiesDefeated = data.enemies ?? 0;
   }
 
   create() {
@@ -40,12 +43,18 @@ export default class GameUI extends Phaser.Scene {
     );
 
     this.add.image(155, 8, "ss-pack-01", "coin_anim_f0.png");
+    
     this.coinsLabel = this.add.text(165, 6, this.coinCount.toString(), {
+      fontSize: "14",
+    });
+    
+    this.add.image(207, 10, "ui-enemy");
+    this.enemiesDefeatedLabel = this.add.text(220, 6, this.enemiesDefeated.toString(), {
       fontSize: "14",
     });
 
     this.levelLabel = this.add.text(
-      210,
+      250,
       6,
       "Nivel: " + this.currentLevel.toString(),
       {
@@ -53,7 +62,13 @@ export default class GameUI extends Phaser.Scene {
       }
     );
 
+
+
     this.add.image(180, 8, "ss-tiles", 7);
+
+    sceneEvents.on("enemies-defeated-changed", (enemies: number) => {
+      this.enemiesDefeatedLabel.text = enemies.toLocaleString();
+    });
 
     sceneEvents.on("player-coins-changed", (coins: number) => {
       this.coinsLabel.text = coins.toLocaleString();

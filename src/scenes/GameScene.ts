@@ -40,6 +40,7 @@ export default class GameScene extends Phaser.Scene {
   private coinCount: integer;
   private injectionCount: integer;
   private healthCount: integer;
+  private enemiesDefeated: integer;
 
   private coinSound!: Phaser.Sound.BaseSound;
   private ouchSound!: Phaser.Sound.BaseSound;
@@ -75,6 +76,7 @@ export default class GameScene extends Phaser.Scene {
     this.injectionCount = data.injections ?? 0;
     this.healthCount = data.health ?? 5;
     this.maxLevels = data.maxlevels ?? 1;
+    this.enemiesDefeated = data.enemies ?? 0;
   }
 
   preload() {
@@ -89,6 +91,7 @@ export default class GameScene extends Phaser.Scene {
       health: this.healthCount,
       coins: this.coinCount,
       injections: this.injectionCount,
+      enemies: this.enemiesDefeated,
     });
 
     createDoctorAnims(this.anims);
@@ -416,9 +419,9 @@ export default class GameScene extends Phaser.Scene {
     addRanking.style.display = "block";
 
     var spPontos = document.getElementById("spPontos") as HTMLSpanElement;
-    spPontos.innerText = this.doctor.getCoins().toString();
+    spPontos.innerText = (this.doctor.getCoins() + (this.enemiesDefeated * 25)).toString();
 
-    scene.scene.start("preloader", { level: 1, coins: 0, injections: 0 });
+    scene.scene.start("preloader", { level: 1, coins: 0, injections: 0, enemies:0 });
   }
 
   private handlePlayerWallsCollision() {
@@ -435,6 +438,7 @@ export default class GameScene extends Phaser.Scene {
         health: this.doctor.getHealth(),
         coins: this.doctor.getCoins(),
         injections: this.doctor.getInjections(),
+        enemies:this.enemiesDefeated,
       });
       this.levelCompleteSound.play();
     } else {
@@ -488,6 +492,8 @@ export default class GameScene extends Phaser.Scene {
     obj1.destroy();
     obj2.destroy();
     this.popSound.play();
+    ++this.enemiesDefeated; 
+    sceneEvents.emit("enemies-defeated-changed", this.enemiesDefeated);
   }
 
   private handlePlayerEnemiesCollision(
