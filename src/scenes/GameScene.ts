@@ -401,8 +401,7 @@ export default class GameScene extends Phaser.Scene {
 
     this.PlayerEnemiesCollider?.destroy();
     this.physics.pause();
-
-    localStorage.setItem("currentRanking", this.doctor.getCoins().toString());
+  
 
     //    this.input.on("pointerdown", this.handleCloseGame);
     this.input.on("pointerdown", () => {
@@ -413,13 +412,17 @@ export default class GameScene extends Phaser.Scene {
   handleCloseGame(scene: GameScene) {
     scene.input.removeListener("pointerdown", this.handleCloseGame);
     scene.imageGameOver.destroy();
+
+
+    var spPontos = document.getElementById("spPontos") as HTMLSpanElement;
+    var pontos = (this.doctor.getCoins() + (this.enemiesDefeated * 25))
+    localStorage.setItem("currentRanking", pontos.toString());
+    spPontos.innerText = pontos.toString();
+
     var gameWrapper = document.getElementById("phaser-game-wrapper");
     gameWrapper.style.display = "none";
     var addRanking = document.getElementById("addRanking");
     addRanking.style.display = "block";
-
-    var spPontos = document.getElementById("spPontos") as HTMLSpanElement;
-    spPontos.innerText = (this.doctor.getCoins() + (this.enemiesDefeated * 25)).toString();
 
     scene.scene.start("preloader", { level: 1, coins: 0, injections: 0, enemies:0 });
   }
