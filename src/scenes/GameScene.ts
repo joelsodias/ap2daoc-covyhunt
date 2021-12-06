@@ -7,10 +7,10 @@ import { createVaccineBoxAnims } from "../animations/VaccineBoxAnims";
 import { createCoinAnims } from "../animations/CoinAnims";
 import { createHeartAnims } from "../animations/HeartAnims";
 
-import "../actors/Covy";
+import "../actors/Covy"; // enable GameObject Registers
 import Covy from "../actors/Covy";
 
-import "../actors/Doctor";
+import "../actors/Doctor"; // enable GameObject Registers
 import Doctor from "../actors/Doctor";
 
 import { sceneEvents } from "../events/EventsCenter";
@@ -18,6 +18,11 @@ import { sceneEvents } from "../events/EventsCenter";
 import VaccineBox from "../items/VaccineBox";
 import Coin from "../items/Coin";
 import Heart from "../items/Heart";
+
+import { LevelDialogs } from "../dialogs/LevelDialogs";
+
+import "../Components/SpeechBalloonBitmapText"; // enable GameObject Registers
+import { SpeechBalloonPosition } from "../Components/SpeechBalloonBitmapText";
 
 export default class GameScene extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -37,10 +42,27 @@ export default class GameScene extends Phaser.Scene {
   private healthCount: integer;
 
   private coinSound!: Phaser.Sound.BaseSound;
+  private ouchSound!: Phaser.Sound.BaseSound;
+  private throwSound!: Phaser.Sound.BaseSound;
+  private popSound!: Phaser.Sound.BaseSound;
+  private pop2Sound!: Phaser.Sound.BaseSound;
+  private openSound!: Phaser.Sound.BaseSound;
+  private collect1upSound!: Phaser.Sound.BaseSound;
+  private wallCollisionSound!: Phaser.Sound.BaseSound;
+  private gameOverSpeechSound!: Phaser.Sound.BaseSound;
+  private gameOverMusicSound!: Phaser.Sound.BaseSound;
+  private levelCompleteSound!: Phaser.Sound.BaseSound;
+  private winSound!: Phaser.Sound.BaseSound;
+  private clapsSound!: Phaser.Sound.BaseSound;
+
 
   private imageGameOver!: Phaser.GameObjects.Image;
 
   private maxLevels: integer = 1;
+
+  private currentDialog: integer = 0;
+
+  private bottomText: Phaser.GameObjects.BitmapText;
 
   constructor() {
     super("game");
@@ -74,6 +96,20 @@ export default class GameScene extends Phaser.Scene {
     createCoinAnims(this.anims);
     createHeartAnims(this.anims);
 
+    this.coinSound = this.sound.add("coin", { loop: false });
+    this.ouchSound = this.sound.add("ouch", { loop: false });
+    this.throwSound = this.sound.add("throw", { loop: false });
+    this.popSound = this.sound.add("pop", { loop: false });
+    this.pop2Sound = this.sound.add("pop2", { loop: false });
+    this.openSound = this.sound.add("open", { loop: false });
+    this.collect1upSound = this.sound.add("1up", { loop: false });
+    this.wallCollisionSound = this.sound.add("wall-collision", { loop: false });
+    this.gameOverSpeechSound = this.sound.add("game-over-speech", { loop: false });
+    this.gameOverMusicSound = this.sound.add("game-over-music", { loop: false });
+    this.levelCompleteSound = this.sound.add("level-complete", { loop: false });
+    this.winSound = this.sound.add("win", { loop: false });
+    this.clapsSound = this.sound.add("claps", { loop: false });
+
     this.map = this.make.tilemap({ key: "map" });
     const map = this.map;
 
@@ -93,11 +129,17 @@ export default class GameScene extends Phaser.Scene {
       maxSize: 5,
     });
 
-    this.doctor = this.add.doctor(50, 200, "ss-doc");
+    this.doctor = this.add.doctor(40, 200, "ss-doc");
     this.doctor.setInjectionGroup(this.injectionGroup);
     this.doctor.setInjections(this.injectionCount);
     this.doctor.setCoins(this.coinCount);
     this.doctor.setHealth(this.healthCount);
+    this.doctor.onThrowInjection = () => {
+      this.throwSound.play();
+    };
+    this.doctor.onCollectInjection = () => {
+      this.openSound.play();
+    };
 
     this.cameras.main.startFollow(this.doctor, true);
 
@@ -124,8 +166,6 @@ export default class GameScene extends Phaser.Scene {
         "ss-pack-01"
       );
     });
-
-    this.coinSound = this.sound.add("coin", { loop: false });
 
     this.coinGroup = this.physics.add.group({
       classType: Coin,
@@ -156,7 +196,13 @@ export default class GameScene extends Phaser.Scene {
       );
     });
 
-    this.physics.add.collider(this.doctor, wallsLayer);
+    this.physics.add.collider(
+      this.doctor,
+      wallsLayer,
+      this.handlePlayerWallsCollision,
+      undefined,
+      this
+    );
     this.physics.add.collider(
       this.doctor,
       gateLayer,
@@ -212,172 +258,65 @@ export default class GameScene extends Phaser.Scene {
       this
     );
 
-    this.doctor.play('doc-stop-down');
+    this.doctor.play("doc-stop-down");
 
-    if (this.currentLevel == 1) {
-      // const text = this.add
-      // .bitmapText(this.doctor.x*0.5, this.doctor.y + 200, "atari", "Clique para continuar..", 16)
-      // .setOrigin(0.5)
-      // .setCenterAlign()
-      // .setInteractive()
-      // .setTint(0,0,0,0)
-      this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
-        "olá, me chamo 'Doc' e",
-        "convido você para uma",
-        "uma missão importante!",
-      ]);
+    this.handleDialogs(this.currentLevel, 1);
+  }
 
-      this.physics.pause();
+  handleDialogs(level: number, dialog: number) {
+    //var dialog = LevelDialogs[language][level][dialog];
+    console.log(LevelDialogs["pt-BR"]);
+    console.log(LevelDialogs["pt-BR"]["level-" + dialog.toString()]);
 
-      const text = this.add
-        .bitmapText(
-          this.doctor.x + 100,
-          this.doctor.y + 100,
-          "atari",
-          "Clique para continuar..",
-          16
-        )
-        .setOrigin(0.5)
-        .setCenterAlign()
-        .setInteractive()
-        .setTint(0, 0, 0, 0);
+    var closeDialog = false;
+    var languageKey = "pt-BR";
+    var levelKey = "level-" + level.toString();
+    var dialogKey = "dialog-" + dialog.toString();
 
-      this.input.on("pointerdown", () => {
-        this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
-          "Vamos usar a vacina ",
-          "contra o COVID-19",
-          "e passar de fase?",
-        ]);
+    this.physics.pause();
 
-        this.input.on("pointerdown", () => {
-          this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
-            "Você precisa usar as setas",
-            "do teclado para se movimentar ",
-            "e a barra de espaço para coletar",
-            "e arremessar itens...",
-          ]);
+    if (LevelDialogs[languageKey] !== undefined) {
+      if (LevelDialogs[languageKey][levelKey] !== undefined) {
+        if (LevelDialogs[languageKey][levelKey][dialogKey] !== undefined) {
+          if (!this.bottomText) {
+            this.bottomText = this.add
+              .bitmapText(
+                this.doctor.x,
+                this.doctor.y + 100,
+                "atari",
+                "Clique para continuar..",
+                16
+              )
+              .setOrigin(0.5)
+              .setCenterAlign()
+              .setInteractive()
+              .setTint(0, 0, 0, 0);
+          }
+
+          this.doctor.sayMessage(
+            SpeechBalloonPosition.LEFT,
+            LevelDialogs[languageKey][levelKey][dialogKey]
+          );
+
           this.input.on("pointerdown", () => {
-            this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
-              "Vamos então?",
-              "Comece coletando as moedas no meio da sala",
-              "Depois entre no portão!",
-            ]);
-            this.input.on("pointerdown", () => {
-              this.doctor.closeMessage();
-              this.physics.resume();
-              text.destroy();
-              this.input.removeAllListeners();
-            });
+            this.currentDialog = dialog + 1;
+            this.handleDialogs(level, this.currentDialog);
           });
-        });
-      });
-    } else if (this.currentLevel == 2) {
-      const text = this.add
-        .bitmapText(
-          this.doctor.x + 100,
-          this.doctor.y + 100,
-          "atari",
-          "Clique para continuar..",
-          16
-        )
-        .setOrigin(0.5)
-        .setCenterAlign()
-        .setInteractive()
-        .setTint(0, 0, 0, 0);
+        } else {
+          closeDialog = true;
+        }
+      } else {
+        closeDialog = true;
+      }
+    } else {
+      closeDialog = true;
+    }
 
-      this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
-        "Parabéns!!",
-        "",
-        "Estamos nos entendendo muito bem!",
-      ]);
-
-      this.physics.pause();
-      this.input.on("pointerdown", () => {
-        this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
-          "Oba! Mais moedas! ",
-          "O que é aquela caixa?",
-          "Chegue perto e use a barra de espaço",
-          "para coletar vacinas!",
-        ]);
-        this.input.on("pointerdown", () => {
-          this.doctor.closeMessage();
-          this.physics.resume();
-          text.destroy();
-          this.input.removeAllListeners();
-        });
-      });
-    } else if (this.currentLevel == 3) {
-      const text = this.add
-        .bitmapText(
-          this.doctor.x + 100,
-          this.doctor.y + 100,
-          "atari",
-          "Clique para continuar..",
-          16
-        )
-        .setOrigin(0.5)
-        .setCenterAlign()
-        .setInteractive()
-        .setTint(0, 0, 0, 0);
-
-      this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
-        "É isso ai!!!",
-        "Essas vacinas serão importantes",
-        "na nossa missão!",
-      ]);
-
-      this.physics.pause();
-      this.input.on("pointerdown", () => {
-        this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
-          "Cuidado!!!",
-          "Tem um vírus na sala!",
-        ]);
-        this.input.on("pointerdown", () => {
-          this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
-            "Mire nele e use a barra de espaço",
-            "para lançar uma injeção nele!",
-          ]);
-          this.input.on("pointerdown", () => {
-            this.doctor.closeMessage();
-            this.physics.resume();
-            text.destroy();
-            this.input.removeAllListeners();
-          });
-        });
-      });
-    } else if (this.currentLevel == 4) {
-      const text = this.add
-        .bitmapText(
-          this.doctor.x + 100,
-          this.doctor.y + 100,
-          "atari",
-          "Clique para continuar..",
-          16
-        )
-        .setOrigin(0.5)
-        .setCenterAlign()
-        .setInteractive()
-        .setTint(0, 0, 0, 0);
-
-      this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
-        "Uau!",
-        "Você já aprendeu tudo o que ",
-        "precisava para concluir nossa missão!",
-      ]);
-
-      this.physics.pause();
-      this.input.on("pointerdown", () => {
-        this.doctor.sayMessage(this.doctor.x + 5, this.doctor.y - 100, [
-          "Agora é com você!!",
-          "Boa sorte!",
-        ]);
-        this.input.on("pointerdown", () => {
-          this.doctor.closeMessage();
-          this.physics.resume();
-          text.destroy();
-          this.input.removeAllListeners();
-        });
-      });
+    if (closeDialog) {
+      this.doctor.closeMessage();
+      this.physics.resume();
+      this.bottomText.destroy();
+      this.input.removeAllListeners();
     }
   }
 
@@ -392,12 +331,19 @@ export default class GameScene extends Phaser.Scene {
       );
 
       this.doctor.setWinner();
+
+      this.winSound.play();
+      this.clapsSound.play();
+
     } else {
       this.imageGameOver = this.add.image(
         this.doctor.x,
         this.doctor.y,
         "game-over-fail"
       );
+      this.gameOverSpeechSound.play();
+      this.gameOverMusicSound.play();
+
     }
 
     const text = this.add
@@ -420,32 +366,26 @@ export default class GameScene extends Phaser.Scene {
 
     //    this.input.on("pointerdown", this.handleCloseGame);
     this.input.on("pointerdown", () => {
-      this.input.removeListener("pointerdown", this.handleCloseGame);
-      this.imageGameOver.destroy();
-      var gameWrapper = document.getElementById("phaser-game-wrapper");
-      gameWrapper.style.display = "none";
-      var addRanking = document.getElementById("addRanking");
-      addRanking.style.display = "block";
-      //this.registry.destroy(); // destroy registry
-      //this.scene.remove("game")
-
-      var spPontos = document.getElementById("spPontos") as HTMLSpanElement;
-      spPontos.innerText = this.doctor.getCoins().toString();
-
-      this.scene.start("preloader", { level: 1, coins: 0, injections: 2 });
+      this.handleCloseGame(this);
     });
   }
 
-  handleCloseGame() {
-    // this.input.removeListener("pointerdown", this.handleCloseGame);
-    // this.imageGameOver.destroy();
-    // var gameWrapper = document.getElementById("phaser-game-wrapper");
-    // gameWrapper.style.display = "none";
-    // var addRanking = document.getElementById("addRanking");
-    // addRanking.style.display = "block";
-    // //this.registry.destroy(); // destroy registry
-    // //this.scene.remove("game")
-    // this.scene.start("preloader", { level: 1, coins: 0, injections: 2 });
+  handleCloseGame(scene: GameScene) {
+    scene.input.removeListener("pointerdown", this.handleCloseGame);
+    scene.imageGameOver.destroy();
+    var gameWrapper = document.getElementById("phaser-game-wrapper");
+    gameWrapper.style.display = "none";
+    var addRanking = document.getElementById("addRanking");
+    addRanking.style.display = "block";
+
+    var spPontos = document.getElementById("spPontos") as HTMLSpanElement;
+    spPontos.innerText = this.doctor.getCoins().toString();
+
+    scene.scene.start("preloader", { level: 1, coins: 0, injections: 2 });
+  }
+
+  private handlePlayerWallsCollision() {
+    //this.wallCollisionSound.play();
   }
 
   private handlePlayerGateCollision(
@@ -459,6 +399,7 @@ export default class GameScene extends Phaser.Scene {
         coins: this.doctor.getCoins(),
         injections: this.doctor.getInjections(),
       });
+      this.levelCompleteSound.play();
     } else {
       this.handleGameOver(true);
     }
@@ -471,6 +412,7 @@ export default class GameScene extends Phaser.Scene {
     obj2.destroy();
     var doc = obj1 as Doctor;
     doc.collectHealth(1);
+    this.collect1upSound.play();
   }
 
   private handlePlayerCoinsCollision(
@@ -497,6 +439,7 @@ export default class GameScene extends Phaser.Scene {
   ) {
     this.injectionGroup.killAndHide(obj1);
     obj1.destroy();
+    this.pop2Sound.play();
   }
 
   private handleInjectionEnemyCollision(
@@ -507,6 +450,7 @@ export default class GameScene extends Phaser.Scene {
     this.enemyGroup.killAndHide(obj2);
     obj1.destroy();
     obj2.destroy();
+    this.popSound.play();
   }
 
   private handlePlayerEnemiesCollision(
@@ -519,6 +463,8 @@ export default class GameScene extends Phaser.Scene {
     const dy = this.doctor.y - covy.y;
 
     const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200);
+
+    this.ouchSound.play();
 
     this.doctor.handleHURT(dir);
 

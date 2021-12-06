@@ -1,3 +1,4 @@
+import SpeechBalloonBitmapText, { SpeechBalloonPosition } from './../Components/SpeechBalloonBitmapText';
 import Phaser, { Game } from "phaser";
 import VaccineBox from "../items/VaccineBox";
 import GameScene from "../scenes/GameScene";
@@ -37,9 +38,10 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
 
   private gameScene: GameScene;
 
-  private currentMessageObj: Phaser.GameObjects.BitmapText;
-  private currentMessageBubble: Phaser.GameObjects.Graphics;
+  private currentMessageObj: SpeechBalloonBitmapText;
 
+  public onThrowInjection: () => void;
+  public onCollectInjection: () => void;
 
 
   get health() {
@@ -63,103 +65,55 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
 
   closeMessage() {
     if (this.currentMessageObj) {this.currentMessageObj.destroy()}
-    if (this.currentMessageBubble) {this.currentMessageBubble.destroy()}
+
   }
 
   sayMessage(
-    x: number,
-    y: number,
+    position:SpeechBalloonPosition,
     message: string[]
   ) {
 
-    
-    
+     
 
     const fontSize = 16
     const fontName = "atari"
+    const fontColor = 0x0
 
     if (this.currentMessageObj) {this.currentMessageObj.destroy()}
-    if (this.currentMessageBubble) {this.currentMessageBubble.destroy()}
 
-    this.currentMessageObj = this.scene.add
-      .bitmapText(x + 10, y + 10, fontName, message, fontSize)
-      //.setOrigin(0.5)
-      //.setCenterAlign()
-      .setInteractive()
-      .setTint(0, 0, 0, 0);
-
-    var bubbleWidth = this.currentMessageObj.width + 20;
-    var bubbleHeight = this.currentMessageObj.height + 20;
-    var bubblePadding = 10;
-    var arrowHeight = bubbleHeight / 4;
-
-
-    this.currentMessageObj.destroy();
-
-    this.currentMessageBubble = this.scene.add.graphics({ x: x, y: y });
-
-    //  this.currentMessageBubble shadow
-    this.currentMessageBubble.fillStyle(0x222222, 0.5);
-    this.currentMessageBubble.fillRoundedRect(6, 6, bubbleWidth, bubbleHeight, 16);
-
-    // this.currentMessageBubble color
-    this.currentMessageBubble.fillStyle(0xffffff, 1);
     
-    //  this.currentMessageBubble outline line style
-    this.currentMessageBubble.lineStyle(4, 0x565656, 1);
-    
-    // //  this.currentMessageBubble shape and outline
-    this.currentMessageBubble.strokeRoundedRect(0, 0, bubbleWidth, bubbleHeight, 16);
-    this.currentMessageBubble.fillRoundedRect(0, 0, bubbleWidth, bubbleHeight, 16);
-    
-    //  Calculate arrow coordinates
-    var point1X = Math.floor(bubbleWidth / 7);
-    var point1Y = bubbleHeight;
-    var point2X = Math.floor((bubbleWidth / 7) * 2);
-    var point2Y = bubbleHeight;
-    var point3X = Math.floor(bubbleWidth / 7);
-    var point3Y = Math.floor(bubbleHeight + arrowHeight);
+    var messageX = this.x;
+    var messageY = this.y;
 
-    //  this.currentMessageBubble arrow shadow
-    this.currentMessageBubble.lineStyle(4, 0x222222, 0.5);
-    this.currentMessageBubble.lineBetween(point2X - 1, point2Y + 6, point3X + 2, point3Y);
+    switch (position) {
+      case (SpeechBalloonPosition.TOP):
+        var messageX = this.x;
+        var messageY = this.y-32;
+        break; 
+        case (SpeechBalloonPosition.BOTTOM):
+        var messageX = this.x;
+        var messageY = this.y+32;
+        break; 
+        case (SpeechBalloonPosition.LEFT):
+        var messageX = this.x-16;
+        var messageY = this.y;
+        break; 
+        case (SpeechBalloonPosition.RIGHT):
+        var messageX = this.x+16;
+        var messageY = this.y;
+        break; 
+    }
 
-    //  this.currentMessageBubble arrow fill
-    this.currentMessageBubble.fillTriangle(point1X, point1Y, point2X, point2Y, point3X, point3Y);
-    this.currentMessageBubble.lineStyle(2, 0x565656, 1);
-    this.currentMessageBubble.lineBetween(point2X, point2Y, point3X, point3Y);
-    this.currentMessageBubble.lineBetween(point1X, point1Y, point3X, point3Y);
-    
-    this.currentMessageObj = this.scene.add
-    .bitmapText(x + 10, y + 10, fontName, message, fontSize)
-    //.setOrigin(0.5)
-      .setCenterAlign()
-      .setInteractive()
-      .setTint(0, 0, 0, 0);
+    this.currentMessageObj = this.scene.add.speechBalloonBitmapText(
+      messageX,
+      messageY,
+      message,
+      position,
+      fontName,
+      fontSize,
+      fontColor
+    );
 
-    //  this.currentMessageBubble outline line style
-    this.currentMessageBubble.lineStyle(1, 0x0, 1);
-    
-    // this.currentMessageBubble.lineStyle(3, 0x0, 1);
-    // this.currentMessageBubble.strokeCircle(bubbleWidth+5, bubbleHeight+5, 20)
-    // this.currentMessageBubble.fillStyle(0xffffff, 1);
-    // this.currentMessageBubble.fillCircle(bubbleWidth+5, bubbleHeight+5, 20)
-
-    // this.currentMessageObj = this.scene.add
-    // .bitmapText(x+bubbleWidth-2, y+bubbleHeight-2, fontName, "OK", fontSize)
-    // //.setOrigin(0.5)
-    // .setCenterAlign()
-    // .setInteractive()
-    // .setTint(0, 0, 0, 0);
-    
-    //var b = this.currentMessageObj.getBounds();
-
-    // this.currentMessageObj.setPosition(
-    //   this.currentMessageBubble.x + bubbleWidth / 2 - this.currentMessageObj. width / 2,
-    //   this.currentMessageBubble.y + bubbleHeight / 2 - this.currentMessageObj.height / 2
-    // );
-
-    //var button = this.scene.game.dd. button(game.world.centerX - 95, 400, 'button', actionOnClick, this, 2, 1, 0);
   }
 
   setGameScene(scene: GameScene) {
@@ -215,6 +169,9 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
   collectInjection(quantity: integer) {
     this.injectionCount += quantity;
     sceneEvents.emit("player-injections-changed", this.injectionCount);
+    if (this.onCollectInjection) {
+      this.onCollectInjection();
+    }
   }
 
   collectHealth(quantity: integer) {
@@ -298,16 +255,20 @@ export default class Doctor extends Phaser.Physics.Arcade.Sprite {
     injection.x += vec.x * 16;
     injection.y += vec.y * 16;
 
-    injection.setVelocity(vec.x * 100, vec.y * 100);
-
+    
     injection.body.x = injection.x;
     injection.body.y = injection.y;
-
+    
+    
+    injection.setVelocity(vec.x * 100, vec.y * 100);
     this.injectionCount -= 1;
-
+    
     sceneEvents.emit("player-injections-changed", this.injectionCount);
     if (this.injectionCount <= 0) {
       this.play(this.anims.currentAnim.key.replace("-injection", ""));
+    }
+    if (this.onThrowInjection) {
+      this.onThrowInjection();
     }
   }
 

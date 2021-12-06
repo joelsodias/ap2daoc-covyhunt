@@ -22,6 +22,20 @@ export default class Preloader extends Phaser.Scene {
 
   preload() {
     this.load.audio("coin", "sound/coin.mp3");
+    this.load.audio("ouch", "sound/ouch.mp3");
+    this.load.audio("throw", "sound/throw.mp3");
+    this.load.audio("pop", "sound/pop.mp3");
+    this.load.audio("pop2", "sound/pop2.mp3");
+    this.load.audio("open", "sound/open.mp3");
+    this.load.audio("1up", "sound/collect-1up.mp3");
+    this.load.audio("wall-collision", "sound/wall-collision.mp3");
+    this.load.audio("level-complete", "sound/level-complete.mp3");
+    this.load.audio("claps", "sound/claps.mp3");
+    this.load.audio("level-complete", "sound/level-complete.mp3");
+    this.load.audio("game-over-speech", "sound/game-over-speech.mp3");
+    this.load.audio("game-over-music", "sound/game-over-music.mp3");
+    this.load.audio("level-complete", "sound/level-complete.mp3");
+    this.load.audio("win", "sound/win.mp3");
 
     this.load.bitmapFont('atari', 'fonts/bitmap/gem.png', 'fonts/bitmap/gem.xml');
     this.load.bitmapFont('nokia16', 'fonts/bitmap/nokia16.png', 'fonts/bitmap/nokia16.xml');
