@@ -54,6 +54,7 @@ export default class GameScene extends Phaser.Scene {
   private levelCompleteSound!: Phaser.Sound.BaseSound;
   private winSound!: Phaser.Sound.BaseSound;
   private clapsSound!: Phaser.Sound.BaseSound;
+  private collectInjectionSound!: Phaser.Sound.BaseSound;
 
 
   private imageGameOver!: Phaser.GameObjects.Image;
@@ -109,6 +110,7 @@ export default class GameScene extends Phaser.Scene {
     this.levelCompleteSound = this.sound.add("level-complete", { loop: false });
     this.winSound = this.sound.add("win", { loop: false });
     this.clapsSound = this.sound.add("claps", { loop: false });
+    this.collectInjectionSound = this.sound.add("collect", { loop: false });
 
     this.map = this.make.tilemap({ key: "map" });
     const map = this.map;
@@ -138,7 +140,34 @@ export default class GameScene extends Phaser.Scene {
       this.throwSound.play();
     };
     this.doctor.onCollectInjection = () => {
+      var container = this.add.container(this.doctor.x-20, this.doctor.y - 50)
+      var image = this.add.image(0, 0, "ss-pack-01", "injection-black.png");
+      image.setScale(3);
+      var text = this.add.text(0, 0, 'x 2');
+      
+      container.add(image)
+      container.add(text)
+      
       this.openSound.play();
+
+      var tween = this.tweens.add({
+            delay:100,
+            targets: container,
+            x: this.doctor.x-20,
+            y: this.doctor.y - 80,
+            duration: 3000,
+            ease: 'Back',
+            alpha: 0,
+            //easeParams: easeTypeParams[idx],
+            yoyo: false,
+            onStart: () => {
+              this.collectInjectionSound.play(); 
+            },
+            onComplete: () =>{
+
+            }
+        });
+      
     };
 
     this.cameras.main.startFollow(this.doctor, true);
@@ -381,7 +410,7 @@ export default class GameScene extends Phaser.Scene {
     var spPontos = document.getElementById("spPontos") as HTMLSpanElement;
     spPontos.innerText = this.doctor.getCoins().toString();
 
-    scene.scene.start("preloader", { level: 1, coins: 0, injections: 2 });
+    scene.scene.start("preloader", { level: 1, coins: 0, injections: 0 });
   }
 
   private handlePlayerWallsCollision() {

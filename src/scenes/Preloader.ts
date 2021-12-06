@@ -27,6 +27,7 @@ export default class Preloader extends Phaser.Scene {
     this.load.audio("pop", "sound/pop.mp3");
     this.load.audio("pop2", "sound/pop2.mp3");
     this.load.audio("open", "sound/open.mp3");
+    this.load.audio("collect", "sound/collect.mp3");
     this.load.audio("1up", "sound/collect-1up.mp3");
     this.load.audio("wall-collision", "sound/wall-collision.mp3");
     this.load.audio("level-complete", "sound/level-complete.mp3");
