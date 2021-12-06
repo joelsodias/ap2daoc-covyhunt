@@ -307,20 +307,22 @@ export default class GameScene extends Phaser.Scene {
     if (LevelDialogs[languageKey] !== undefined) {
       if (LevelDialogs[languageKey][levelKey] !== undefined) {
         if (LevelDialogs[languageKey][levelKey][dialogKey] !== undefined) {
-          if (!this.bottomText) {
-            this.bottomText = this.add
+          if (this.bottomText) {
+            this.bottomText.destroy();
+          }
+
+          this.bottomText = this.add
               .bitmapText(
                 this.doctor.x,
                 this.doctor.y + 100,
                 "atari",
-                "Clique para continuar..",
+                "Clique ou tecle ENTER para continuar..",
                 16
               )
               .setOrigin(0.5)
               .setCenterAlign()
               .setInteractive()
               .setTint(0, 0, 0, 0);
-          }
 
           this.doctor.sayMessage(
             SpeechBalloonPosition.LEFT,
@@ -331,6 +333,12 @@ export default class GameScene extends Phaser.Scene {
             this.currentDialog = dialog + 1;
             this.handleDialogs(level, this.currentDialog);
           });
+
+          this.input.keyboard.on('keydown-ENTER',  (event) => { 
+            this.currentDialog = dialog + 1;
+            this.handleDialogs(level, this.currentDialog);
+           },this);
+
         } else {
           closeDialog = true;
         }
